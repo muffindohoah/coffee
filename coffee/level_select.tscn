@@ -1,0 +1,309 @@
+[gd_scene load_steps=32 format=3 uid="uid://1ywtb23tqqha"]
+
+[ext_resource type="Script" path="res://level_select.gd" id="1_00viv"]
+[ext_resource type="ArrayMesh" uid="uid://qxdmtrcbi3gn" path="res://blends/mugcity.obj" id="1_fqjfc"]
+[ext_resource type="Shader" path="res://coffee.gdshader" id="2_d654r"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_shbsf"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nmnjk"]
+noise = SubResource("FastNoiseLite_shbsf")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_41c84"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_30nj7"]
+noise = SubResource("FastNoiseLite_41c84")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e4wy3"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kx37q"]
+noise = SubResource("FastNoiseLite_e4wy3")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1t4dj"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ubx33"]
+width = 2807
+height = 2372
+noise = SubResource("FastNoiseLite_1t4dj")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rqp7f"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l2qt5"]
+noise = SubResource("FastNoiseLite_rqp7f")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l73wt"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_v7qvm"]
+noise = SubResource("FastNoiseLite_l73wt")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_35nwl"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n1mwu"]
+width = 1697
+height = 1752
+noise = SubResource("FastNoiseLite_35nwl")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r1ykk"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o1b5o"]
+width = 1687
+height = 1562
+noise = SubResource("FastNoiseLite_r1ykk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qvs10"]
+render_priority = 0
+shader = ExtResource("2_d654r")
+shader_parameter/sync_time = 0.0
+shader_parameter/wave_speed = 1.0
+shader_parameter/caustic_speed = 0.01
+shader_parameter/edge_fade_power = 2.0
+shader_parameter/transmittence = 0.04
+shader_parameter/h_dist_trans_weight = 3.0
+shader_parameter/transmit_color = Color(0.758203, 0.35377, 0.201157, 1)
+shader_parameter/depth_fade = 0.3
+shader_parameter/depth_fade_distance = 5.0
+shader_parameter/surface_albedo = Color(1, 1, 1, 1)
+shader_parameter/surface_bottom = Color(0, 0, 0, 1)
+shader_parameter/opacity = 4.28
+shader_parameter/opacity_floor = 0.1
+shader_parameter/opacity_ceiling = 0.8
+shader_parameter/roughness = 1.0
+shader_parameter/height_scale = 0.025
+shader_parameter/amplitude1 = 1.235
+shader_parameter/amplitude2 = 1.99
+shader_parameter/v_noise_tile = 200
+shader_parameter/normal_noise_size = 5.12
+shader_parameter/normal_noise_speed = 0.05
+shader_parameter/v_normal_scale = 1.0
+shader_parameter/normal_map_w = 256
+shader_parameter/wobble_power = 0.01
+shader_parameter/sky_color = null
+shader_parameter/vertex_noise_big = SubResource("NoiseTexture2D_n1mwu")
+shader_parameter/vertex_noise_big2 = SubResource("NoiseTexture2D_o1b5o")
+shader_parameter/normal_noise = SubResource("NoiseTexture2D_ubx33")
+shader_parameter/normal_noise2 = SubResource("NoiseTexture2D_l2qt5")
+shader_parameter/under_wobble_noise = SubResource("NoiseTexture2D_v7qvm")
+shader_parameter/foam_color = Color(0.879112, 0.614989, 0.99998, 1)
+shader_parameter/foam_mask_size = 0.0
+shader_parameter/foam_mask_offset = Vector2(0, 0)
+shader_parameter/foam_wobble = 2.125
+shader_parameter/foam_wobble_size = 10.0
+shader_parameter/foam = SubResource("NoiseTexture2D_nmnjk")
+shader_parameter/foam_mask = SubResource("NoiseTexture2D_30nj7")
+shader_parameter/foam_wobble_noise = SubResource("NoiseTexture2D_kx37q")
+shader_parameter/high_color = Color(0, 0, 0, 1)
+shader_parameter/low_color = null
+shader_parameter/wave_color_range = 2.0
+shader_parameter/enable_fake_lighting = false
+shader_parameter/shine_strength = 0.17
+shader_parameter/shine_shininess = 18.0
+shader_parameter/shadow = 0.72
+shader_parameter/shadow_width = 0.18
+shader_parameter/shadow_color = Color(0.705, 0.705, 0.705, 0.705)
+shader_parameter/_specular_smoothness = 0.199
+shader_parameter/_specular_strength = 0.075
+shader_parameter/_glossiness = 0.067
+
+[sub_resource type="Animation" id="Animation_7pggq"]
+resource_name = "industrial"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 13.265, -1.58)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.432842, -1.5708, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oalcu"]
+resource_name = "corporate"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.165, 15.18, -1.62)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(0.258816),
+"update": 0,
+"values": [Vector3(0.411898, 3.12763, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_aul1w"]
+resource_name = "residential"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.216421, 0.216421, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 16.045, -1.58)]
+}
+
+[sub_resource type="Animation" id="Animation_fw4ki"]
+resource_name = "country"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(0.392292),
+"update": 0,
+"values": [Vector3(-0.216421, 1.73311, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(0.392292),
+"update": 0,
+"values": [Vector3(-1.755, 15, -2.025)]
+}
+
+[sub_resource type="Animation" id="Animation_lv6sf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.216421, 0.216421, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 16.045, -1.58)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pn06y"]
+_data = {
+"RESET": SubResource("Animation_lv6sf"),
+"corporate": SubResource("Animation_oalcu"),
+"country": SubResource("Animation_fw4ki"),
+"industrial": SubResource("Animation_7pggq"),
+"residential": SubResource("Animation_aul1w")
+}
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_t1c1e"]
+seed = 205
+frequency = 0.0005
+offset = Vector3(0, 487.8, 0)
+domain_warp_enabled = true
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q8ivv"]
+noise = SubResource("FastNoiseLite_t1c1e")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_klofm"]
+sky_cover = SubResource("NoiseTexture2D_q8ivv")
+
+[sub_resource type="Sky" id="Sky_vdg3i"]
+sky_material = SubResource("ProceduralSkyMaterial_klofm")
+
+[sub_resource type="Environment" id="Environment_21piy"]
+background_mode = 2
+sky = SubResource("Sky_vdg3i")
+ambient_light_source = 3
+tonemap_mode = 1
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_normalized = true
+fog_mode = 1
+fog_sun_scatter = 1.0
+fog_density = 1.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0184
+adjustment_brightness = 0.58
+
+[node name="level_select" type="Node3D"]
+script = ExtResource("1_00viv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_fqjfc")
+surface_material_override/1 = SubResource("ShaderMaterial_qvs10")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.976672, -0.0461113, 0.209726, 0, 0.976672, 0.214735, -0.214735, -0.209726, 0.953889, 0, 16.045, -1.58)
+current = true
+fov = 98.2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pn06y")
+}
+playback_default_blend_time = 1.5
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_21piy")
