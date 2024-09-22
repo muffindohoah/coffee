@@ -21,7 +21,7 @@ size = Vector2(92, 107)
 
 [node name="enemy" type="CharacterBody2D" groups=["damageable", "enemy"]]
 collision_layer = 16
-collision_mask = 3
+collision_mask = 18
 script = ExtResource("1_2kq0b")
 
 [node name="flip2d" parent="." instance=ExtResource("2_7f8vj")]
@@ -50,6 +50,11 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack"]
 position = Vector2(0, -54.5)
 shape = SubResource("RectangleShape2D_hqgik")
+
+[node name="healthLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0"
 
 [connection signal="body_entered" from="detectionrange" to="." method="_on_detectionrange_body_entered"]
 [connection signal="body_entered" from="attack" to="." method="_on_attack_body_entered"]

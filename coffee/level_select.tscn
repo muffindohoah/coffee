@@ -104,32 +104,31 @@ shader_parameter/_specular_smoothness = 0.199
 shader_parameter/_specular_strength = 0.075
 shader_parameter/_glossiness = 0.067
 
-[sub_resource type="Animation" id="Animation_7pggq"]
-resource_name = "industrial"
-length = 1.5
+[sub_resource type="Animation" id="Animation_lv6sf"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D:position")
+tracks/0/path = NodePath("Camera3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1.5),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 13.265, -1.58)]
+"values": [Vector3(-0.216421, 0.216421, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/path = NodePath("Camera3D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1.5),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.432842, -1.5708, 0)]
+"values": [Vector3(0, 16.045, -1.58)]
 }
 
 [sub_resource type="Animation" id="Animation_oalcu"]
@@ -160,34 +159,6 @@ tracks/1/keys = {
 "values": [Vector3(0.411898, 3.12763, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_aul1w"]
-resource_name = "residential"
-length = 1.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(1.5),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.216421, 0.216421, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Camera3D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1.5),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 16.045, -1.58)]
-}
-
 [sub_resource type="Animation" id="Animation_fw4ki"]
 resource_name = "country"
 length = 1.5
@@ -216,8 +187,37 @@ tracks/1/keys = {
 "values": [Vector3(-1.755, 15, -2.025)]
 }
 
-[sub_resource type="Animation" id="Animation_lv6sf"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_7pggq"]
+resource_name = "industrial"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 13.265, -1.58)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.432842, -1.5708, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_aul1w"]
+resource_name = "residential"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -225,7 +225,7 @@ tracks/0/path = NodePath("Camera3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(1.5),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(-0.216421, 0.216421, 0)]
@@ -237,7 +237,7 @@ tracks/1/path = NodePath("Camera3D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(1.5),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 16.045, -1.58)]
@@ -252,50 +252,48 @@ _data = {
 "residential": SubResource("Animation_aul1w")
 }
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_t1c1e"]
-seed = 205
-frequency = 0.0005
-offset = Vector3(0, 487.8, 0)
-domain_warp_enabled = true
-metadata/_preview_in_3d_space_ = true
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_11fp4"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q8ivv"]
-noise = SubResource("FastNoiseLite_t1c1e")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t0672"]
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_11fp4")
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_klofm"]
-sky_cover = SubResource("NoiseTexture2D_q8ivv")
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dm55r"]
+sky_curve = 0.974702
+sky_cover = SubResource("NoiseTexture2D_t0672")
+energy_multiplier = 2.47
 
-[sub_resource type="Sky" id="Sky_vdg3i"]
-sky_material = SubResource("ProceduralSkyMaterial_klofm")
+[sub_resource type="Sky" id="Sky_afmsg"]
+sky_material = SubResource("ProceduralSkyMaterial_dm55r")
 
-[sub_resource type="Environment" id="Environment_21piy"]
+[sub_resource type="Environment" id="Environment_rdem1"]
 background_mode = 2
-sky = SubResource("Sky_vdg3i")
-ambient_light_source = 3
+sky = SubResource("Sky_afmsg")
+reflected_light_source = 2
 tonemap_mode = 1
 ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
 sdfgi_enabled = true
-glow_normalized = true
-fog_mode = 1
-fog_sun_scatter = 1.0
-fog_density = 1.0
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.0184
-adjustment_brightness = 0.58
+sdfgi_use_occlusion = true
+glow_enabled = true
 
 [node name="level_select" type="Node3D"]
 script = ExtResource("1_00viv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.910684, -0.342479, 0.231005, 0, 0.559193, 0.829038, -0.413104, 0.754991, -0.509248, 0, 0, 0)
+shadow_enabled = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_fqjfc")
 surface_material_override/1 = SubResource("ShaderMaterial_qvs10")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.976672, -0.0461113, 0.209726, 0, 0.976672, 0.214735, -0.214735, -0.209726, 0.953889, 0, 16.045, -1.58)
+transform = Transform3D(0.976672, -0.0461113, 0.209726, 0, 0.976672, 0.214736, -0.214735, -0.209726, 0.953889, 0, 16.045, -1.58)
 current = true
-fov = 98.2
+fov = 106.7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -306,4 +304,4 @@ playback_default_blend_time = 1.5
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_21piy")
+environment = SubResource("Environment_rdem1")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dsiagdguuasxg"]
+[gd_scene load_steps=17 format=3 uid="uid://dsiagdguuasxg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_53qcj"]
 [ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_m1dq5"]
+[ext_resource type="PackedScene" uid="uid://dvsrfwsjm0ejv" path="res://hitbox.tscn" id="3_gko32"]
 
 [sub_resource type="Gradient" id="Gradient_t1l8p"]
 
@@ -12,6 +13,9 @@ gradient = SubResource("Gradient_t1l8p")
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qfsk1"]
 gradient = SubResource("Gradient_sfueg")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u8y4p"]
+size = Vector2(60, 36)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_htvss"]
 radius = 32.0
@@ -31,10 +35,34 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(0.32, 1, 0.422, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("flip2d/slice_hitbox:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("flip2d/slice_hitbox:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_60v6o"]
 resource_name = "parry"
-length = 0.1
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -42,7 +70,7 @@ tracks/0/path = NodePath("flip2d/Sprite2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.233333),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(0.32, 1, 0.422, 1)]
@@ -52,15 +80,51 @@ tracks/0/keys = {
 resource_name = "roll"
 length = 0.3
 
+[sub_resource type="Animation" id="Animation_2ncfx"]
+resource_name = "counter"
+
+[sub_resource type="Animation" id="Animation_hp5m2"]
+resource_name = "slice"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flip2d/slice_hitbox:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("flip2d/slice_hitbox:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0odbd"]
 _data = {
 "RESET": SubResource("Animation_j25g7"),
+"counter": SubResource("Animation_2ncfx"),
 "parry": SubResource("Animation_60v6o"),
-"roll": SubResource("Animation_txax0")
+"roll": SubResource("Animation_txax0"),
+"slice": SubResource("Animation_hp5m2")
 }
 
-[node name="Player" type="CharacterBody2D" groups=["damageable", "player"]]
-collision_mask = 2
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtmy3"]
+size = Vector2(33, 63.5)
+
+[node name="player" type="CharacterBody2D" groups=["damageable", "player"]]
+collision_mask = 18
 script = ExtResource("1_53qcj")
 
 [node name="flip2d" parent="." instance=ExtResource("2_m1dq5")]
@@ -75,6 +139,14 @@ texture = SubResource("GradientTexture1D_j181l")
 position = Vector2(0, -71)
 scale = Vector2(0.253906, 13.875)
 texture = SubResource("GradientTexture1D_qfsk1")
+
+[node name="slice_hitbox" parent="flip2d" instance=ExtResource("3_gko32")]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="flip2d/slice_hitbox" index="0"]
+position = Vector2(62, -26)
+shape = SubResource("RectangleShape2D_u8y4p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -32)
@@ -101,5 +173,27 @@ points = PackedVector2Array(0, 0, 1000, 0)
 width = 1.0
 default_color = Color(1, 0, 0, 1)
 
+[node name="counterpivotpoint" type="Node2D" parent="."]
+position = Vector2(0, -32)
+
+[node name="counter_hitbox" parent="counterpivotpoint" instance=ExtResource("3_gko32")]
+position = Vector2(0, 32)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="counterpivotpoint/counter_hitbox" index="0"]
+position = Vector2(48.5, -32.25)
+shape = SubResource("RectangleShape2D_vtmy3")
+debug_color = Color(0.945308, 0.194628, 0.340541, 0.42)
+
+[node name="healthLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="body_entered" from="flip2d/slice_hitbox" to="." method="_on_slice_hitbox_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
+[connection signal="body_entered" from="counterpivotpoint/counter_hitbox" to="." method="_on_counter_hitbox_body_entered"]
+
+[editable path="flip2d/slice_hitbox"]
+[editable path="counterpivotpoint/counter_hitbox"]

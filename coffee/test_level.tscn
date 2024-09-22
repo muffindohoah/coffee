@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0nddjj4e8i5j"]
+[gd_scene load_steps=7 format=3 uid="uid://c0nddjj4e8i5j"]
 
 [ext_resource type="PackedScene" uid="uid://dsiagdguuasxg" path="res://player.tscn" id="1_1cwla"]
 [ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://enemy.tscn" id="2_ngk4t"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n2l7a"]
+rough = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qbl10"]
 size = Vector2(2055, 56)
@@ -14,21 +17,88 @@ gradient = SubResource("Gradient_vw3uw")
 
 [node name="test_level" type="Node2D"]
 
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(252, 518)
+rotation = -3.14158
+scale = Vector2(0.0955778, 0.361647)
+skew = 0.000340223
+collision_layer = 2
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_n2l7a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2(0.5, 3)
+shape = SubResource("RectangleShape2D_qbl10")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D4"]
+position = Vector2(-0.25, 2.87512)
+scale = Vector2(8.01758, 55.75)
+texture = SubResource("GradientTexture1D_01e8s")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(1153, 535)
+rotation = -4.71238
+scale = Vector2(0.141795, 4.4618)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(0.5, 3)
+shape = SubResource("RectangleShape2D_qbl10")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+position = Vector2(-0.25, 2.87512)
+scale = Vector2(8.01758, 55.75)
+texture = SubResource("GradientTexture1D_01e8s")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(-438, 470)
+rotation = -1.57079
+scale = Vector2(0.421813, 0.999958)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(0.5, 3)
+shape = SubResource("RectangleShape2D_qbl10")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(-0.25, 2.87512)
+scale = Vector2(8.01758, 55.75)
+texture = SubResource("GradientTexture1D_01e8s")
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(611, 653)
 collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(576.5, 620)
+position = Vector2(0.5, 3)
 shape = SubResource("RectangleShape2D_qbl10")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
-position = Vector2(575.75, 619.875)
+position = Vector2(-0.25, 2.87512)
 scale = Vector2(8.01758, 55.75)
 texture = SubResource("GradientTexture1D_01e8s")
 
-[node name="Player" parent="." instance=ExtResource("1_1cwla")]
+[node name="player" parent="." instance=ExtResource("1_1cwla")]
 position = Vector2(124, 420)
+
+[node name="enemy2" parent="." instance=ExtResource("2_ngk4t")]
+position = Vector2(-253, 517)
+SPEED = 100.0
+ACCELERATION = 50.0
+INITIAL_HEALTH = 5
+
+[node name="enemy4" parent="." instance=ExtResource("2_ngk4t")]
+position = Vector2(468, 545)
+INITIAL_HEALTH = 3
+
+[node name="enemy3" parent="." instance=ExtResource("2_ngk4t")]
+position = Vector2(706, 484)
+SPEED = 100.0
+ACCELERATION = 100.0
+INITIAL_HEALTH = 3
 
 [node name="enemy" parent="." instance=ExtResource("2_ngk4t")]
 position = Vector2(605, 349)

@@ -3,3 +3,4 @@
 [node name="hitbox" type="Area2D" groups=["hitbox"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+debug_color = Color(0.683497, 0.0981271, 0.214565, 0.42)
