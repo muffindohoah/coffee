@@ -23,6 +23,9 @@ Utils="*res://utils.gd"
 
 hurtbox="entity hurtbox"
 hitbox="hitboxes for entities"
+enemy=""
+damageable="hit(), die()"
+player=""
 
 [input]
 

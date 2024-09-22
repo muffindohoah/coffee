@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://dsiagdguuasxg"]
+[gd_scene load_steps=12 format=3 uid="uid://dsiagdguuasxg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_53qcj"]
-[ext_resource type="PackedScene" uid="uid://d3e5wwkxukfgt" path="res://hurtbox.tscn" id="2_gkoow"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_htvss"]
 radius = 21.0
@@ -19,6 +18,57 @@ size = Vector2(30, 10)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qfsk1"]
 gradient = SubResource("Gradient_sfueg")
+
+[sub_resource type="Animation" id="Animation_j25g7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.32, 1, 0.422, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.167969, 118)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1.19209e-07, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PinJoint2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.98023e-08, -59)]
+}
 
 [sub_resource type="Animation" id="Animation_60v6o"]
 resource_name = "parry"
@@ -75,105 +125,6 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(2.98023e-08, -59), Vector2(2.98023e-08, -24), Vector2(2.98023e-08, 2.00001), Vector2(2.98023e-08, -24), Vector2(2.98023e-08, -59)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("hurtbox:monitoring")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.133333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("hurtbox:monitorable")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.133333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-
-[sub_resource type="Animation" id="Animation_j25g7"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.32, 1, 0.422, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.167969, 118)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-1.19209e-07, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PinJoint2D:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(2.98023e-08, -59)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("hurtbox:monitoring")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("hurtbox:monitorable")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0odbd"]
 _data = {
@@ -182,10 +133,7 @@ _data = {
 "roll": SubResource("Animation_txax0")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qkoa0"]
-size = Vector2(42, 116)
-
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["damageable", "player"]]
 collision_mask = 2
 script = ExtResource("1_53qcj")
 
@@ -207,7 +155,6 @@ texture = SubResource("GradientTexture1D_j181l")
 
 [node name="PinJoint2D" type="DampedSpringJoint2D" parent="."]
 position = Vector2(2.98023e-08, -59)
-scale = Vector2(1, 1)
 node_a = NodePath("..")
 node_b = NodePath("RigidBody2D")
 disable_collision = false
@@ -233,17 +180,8 @@ libraries = {
 "": SubResource("AnimationLibrary_0odbd")
 }
 
-[node name="hurtbox" parent="." instance=ExtResource("2_gkoow")]
-collision_mask = 16
-
-[node name="CollisionShape2D" parent="hurtbox" index="0" groups=["hurtbox"]]
-shape = SubResource("RectangleShape2D_qkoa0")
-
 [node name="dodgecooldown" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
-[connection signal="area_entered" from="hurtbox" to="." method="_on_area_2d_area_entered"]
-
-[editable path="hurtbox"]
