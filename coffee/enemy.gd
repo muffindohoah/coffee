@@ -19,8 +19,10 @@ func _physics_process(delta: float) -> void:
 			var dir := (t.global_position - global_position).normalized() # vector pointing towards target
 			if dir.x < 0:
 				velocity.x = move_toward(velocity.x, -SPEED, ACCELERATION * delta)
+				$flip2d.face(-1)
 			else:
 				velocity.x = move_toward(velocity.x, SPEED, ACCELERATION * delta)
+				$flip2d.face(1)
 		else:
 			velocity.x = move_toward(velocity.x, 0, ACCELERATION * delta)
 	

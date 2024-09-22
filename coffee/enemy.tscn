@@ -1,34 +1,39 @@
-[gd_scene load_steps=7 format=3 uid="uid://c53gmymolr23u"]
+[gd_scene load_steps=8 format=3 uid="uid://c53gmymolr23u"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_2kq0b"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vrsvm"]
-radius = 30.0
-height = 98.0
+[ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_7f8vj"]
 
 [sub_resource type="Gradient" id="Gradient_787ac"]
-colors = PackedColorArray(0.645202, 0.224849, 0, 1, 0.63, 0, 0, 1)
+colors = PackedColorArray(0.0624614, 0.00736692, 1.50409e-09, 1, 0.81502, 1.01075e-06, 1.92523e-07, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_kvcpe"]
 gradient = SubResource("Gradient_787ac")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vrsvm"]
+radius = 32.0
+height = 96.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t2uqc"]
 radius = 269.03
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqgik"]
-size = Vector2(92, 119)
+size = Vector2(92, 107)
 
 [node name="enemy" type="CharacterBody2D" groups=["damageable", "enemy"]]
 collision_layer = 16
 collision_mask = 3
 script = ExtResource("1_2kq0b")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_vrsvm")
+[node name="flip2d" parent="." instance=ExtResource("2_7f8vj")]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.234375, 104)
+[node name="Sprite2D" type="Sprite2D" parent="flip2d"]
+position = Vector2(0, -48)
+scale = Vector2(0.25, 96)
 texture = SubResource("GradientTexture1D_kvcpe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -48)
+shape = SubResource("CapsuleShape2D_vrsvm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("")
@@ -43,7 +48,7 @@ shape = SubResource("CircleShape2D_t2uqc")
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack"]
-position = Vector2(0, -7.5)
+position = Vector2(0, -54.5)
 shape = SubResource("RectangleShape2D_hqgik")
 
 [connection signal="body_entered" from="detectionrange" to="." method="_on_detectionrange_body_entered"]
