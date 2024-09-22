@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0nddjj4e8i5j"]
+
+[ext_resource type="PackedScene" uid="uid://dsiagdguuasxg" path="res://player.tscn" id="1_1cwla"]
+[ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://enemy.tscn" id="2_ngk4t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qbl10"]
+size = Vector2(1153, 56)
+
+[sub_resource type="Gradient" id="Gradient_vw3uw"]
+colors = PackedColorArray(0.18, 0, 0.09, 1, 0.805288, 0.374496, 0.264924, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_01e8s"]
+gradient = SubResource("Gradient_vw3uw")
+
+[node name="test_level" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(576.5, 620)
+shape = SubResource("RectangleShape2D_qbl10")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(575.75, 619.875)
+scale = Vector2(4.50195, 55.75)
+texture = SubResource("GradientTexture1D_01e8s")
+
+[node name="Player" parent="." instance=ExtResource("1_1cwla")]
+position = Vector2(124, 420)
+
+[node name="enemy" parent="." instance=ExtResource("2_ngk4t")]
+position = Vector2(605, 349)
