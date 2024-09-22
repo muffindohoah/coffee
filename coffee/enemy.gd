@@ -2,9 +2,10 @@ extends CharacterBody2D
 
 
 const SPEED = 300.0
+const ACCELERATION = 500.0
 const JUMP_VELOCITY = -400.0
 
-var targets = []
+var targets: Array[Node2D] = []
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -13,8 +14,12 @@ func _physics_process(delta: float) -> void:
 	
 	
 	if !targets.is_empty():
-		
-		velocity.x = move_toward(velocity.x, targets[0].position.x, SPEED)
+		var t := targets[0] # target
+		var dir := (t.global_position - global_position).normalized() # vector pointing towards target
+		if dir.x < 0:
+			velocity.x = move_toward(velocity.x, -SPEED, ACCELERATION * delta)
+		else:
+			velocity.x = move_toward(velocity.x, SPEED, ACCELERATION * delta)
 	
 	move_and_slide()
 
