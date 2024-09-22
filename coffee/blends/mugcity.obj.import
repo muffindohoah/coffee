@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://qxdmtrcbi3gn"
+path="res://.godot/imported/mugcity.obj-04763af64a960a03a5eac1e0cc03378a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/mugcity.obj-04763af64a960a03a5eac1e0cc03378a.mesh"]
+
+source_file="res://blends/mugcity.obj"
+dest_files=["res://.godot/imported/mugcity.obj-04763af64a960a03a5eac1e0cc03378a.mesh", "res://.godot/imported/mugcity.obj-04763af64a960a03a5eac1e0cc03378a.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
