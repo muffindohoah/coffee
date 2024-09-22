@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c53gmymolr23u"]
+[gd_scene load_steps=7 format=3 uid="uid://c53gmymolr23u"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_2kq0b"]
 
@@ -14,6 +14,9 @@ gradient = SubResource("Gradient_787ac")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t2uqc"]
 radius = 269.03
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqgik"]
+size = Vector2(92, 119)
 
 [node name="enemy" type="CharacterBody2D" groups=["damageable", "enemy"]]
 collision_layer = 16
@@ -36,4 +39,12 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detectionrange"]
 shape = SubResource("CircleShape2D_t2uqc")
 
+[node name="attack" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack"]
+position = Vector2(0, -7.5)
+shape = SubResource("RectangleShape2D_hqgik")
+
 [connection signal="body_entered" from="detectionrange" to="." method="_on_detectionrange_body_entered"]
+[connection signal="body_entered" from="attack" to="." method="_on_attack_body_entered"]

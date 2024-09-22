@@ -1,6 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dsiagdguuasxg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_53qcj"]
+[ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_m1dq5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_htvss"]
 radius = 21.0
@@ -10,9 +11,6 @@ height = 118.0
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_j181l"]
 gradient = SubResource("Gradient_t1l8p")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbjss"]
-size = Vector2(30, 10)
 
 [sub_resource type="Gradient" id="Gradient_sfueg"]
 
@@ -24,7 +22,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/path = NodePath("flip2d/Sprite2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -36,7 +34,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/path = NodePath("flip2d/Sprite2D:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -48,7 +46,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:position")
+tracks/2/path = NodePath("flip2d/Sprite2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -57,18 +55,6 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(-1.19209e-07, 0)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PinJoint2D:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(2.98023e-08, -59)]
-}
 
 [sub_resource type="Animation" id="Animation_60v6o"]
 resource_name = "parry"
@@ -76,7 +62,7 @@ length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/path = NodePath("flip2d/Sprite2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -92,7 +78,7 @@ length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("flip2d/Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -104,7 +90,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/path = NodePath("flip2d/Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -112,18 +98,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-1.19209e-07, 0), Vector2(-1.42109e-14, 17), Vector2(0, 30), Vector2(-1.42109e-14, 17), Vector2(-1.19209e-07, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("PinJoint2D:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(2.98023e-08, -59), Vector2(2.98023e-08, -24), Vector2(2.98023e-08, 2.00001), Vector2(2.98023e-08, -24), Vector2(2.98023e-08, -59)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0odbd"]
@@ -140,40 +114,25 @@ script = ExtResource("1_53qcj")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_htvss")
 
+[node name="flip2d" parent="." instance=ExtResource("2_m1dq5")]
+
+[node name="Sprite2D" type="Sprite2D" parent="flip2d"]
+modulate = Color(0.32, 1, 0.422, 1)
+position = Vector2(-1.19209e-07, 0)
+scale = Vector2(0.167969, 118)
+texture = SubResource("GradientTexture1D_j181l")
+
+[node name="headsprite" type="Sprite2D" parent="flip2d"]
+position = Vector2(2.98023e-08, -66)
+scale = Vector2(0.253906, 13.875)
+texture = SubResource("GradientTexture1D_qfsk1")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.32, 1, 0.422, 1)
-position = Vector2(-1.19209e-07, 0)
-scale = Vector2(0.167969, 118)
-texture = SubResource("GradientTexture1D_j181l")
-
-[node name="PinJoint2D" type="DampedSpringJoint2D" parent="."]
-position = Vector2(2.98023e-08, -59)
-node_a = NodePath("..")
-node_b = NodePath("RigidBody2D")
-disable_collision = false
-length = 1.0
-rest_length = 1.0
-stiffness = 64.0
-damping = 16.0
-
-[node name="RigidBody2D" type="RigidBody2D" parent="PinJoint2D"]
-collision_layer = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PinJoint2D/RigidBody2D"]
-position = Vector2(-2.98023e-08, -5)
-shape = SubResource("RectangleShape2D_tbjss")
-
-[node name="Sprite2D" type="Sprite2D" parent="PinJoint2D/RigidBody2D"]
-position = Vector2(0, -7)
-scale = Vector2(0.253906, 13.875)
-texture = SubResource("GradientTexture1D_qfsk1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

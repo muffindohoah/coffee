@@ -1,32 +1,37 @@
 extends CharacterBody2D
 
-@onready var anim_player = $AnimationPlayer
-@onready var dodge_cooldown_timer = $dodgecooldown
+@onready var anim_player := $AnimationPlayer
+@onready var dodge_cooldown_timer := $dodgecooldown
 
-const COOLDOWN = 0.5
-const ROLL_SPEED = 600
-const SPEED = 300.0
-const JUMP_VELOCITY = -600.0
+const COOLDOWN := 0.5
+const ROLL_SPEED := 1000
+const SPEED := 500.0
+const GRAVITY := 5000.0
+const JUMP_SPEED := 0.3 * GRAVITY# + 1000.0
 
-var Invulnerable = true
-var canAttack = true
-var canMove = true
+var knockback := Vector2.ZERO
+
+var isinvulnerable := true
+var canattack := true
+var canmove := true
 
 func _ready() -> void:
 	dodge_cooldown_timer.wait_time = COOLDOWN
 
 func _physics_process(delta: float) -> void:
 	
-	if canMove:
-		
-		_movement_process()
-		_input_process()
+	if canmove:
+		_movement_process(delta)
+		_input_process(delta)
 	
-	print(dodge_cooldown_timer.time_left)
+	knockback = knockback.move_toward(Vector2.ZERO, 2000 * delta)
+	
+	velocity += knockback
 	move_and_slide()
+	velocity -= knockback # silly way of doing this
 
 
-func _input_process():
+func _input_process(delta: float):
 	
 	var direction := Input.get_axis("left", "right")
 	
@@ -36,16 +41,20 @@ func _input_process():
 	elif Input.is_action_just_pressed("dodgeparry"):
 		parry()
 
-func _movement_process():
+func _movement_process(delta: float):
 	if not is_on_floor():
-		velocity.y += 30
+		velocity.y += GRAVITY * delta
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y += JUMP_VELOCITY
+		velocity.y -= JUMP_SPEED
 	var direction := Input.get_axis("left", "right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	
+	if direction < 0: velocity.x = -SPEED
+	if direction > 0: velocity.x = SPEED
+	if direction == 0: velocity.x = 0
+	
+	# flip sprites
+	if direction < 0: $flip2d.face(-1)
+	if direction > 0: $flip2d.face(1)
 
 func parry():
 	if dodge_cooldown_timer.time_left == 0:
@@ -54,18 +63,15 @@ func parry():
 
 func roll(direction):
 	if dodge_cooldown_timer.time_left == 0:
-		canMove = false
+		canmove = false
 		anim_player.play("roll")
 		velocity.y += -20
 		velocity.x = direction * ROLL_SPEED
 		dodge_cooldown_timer.start()
 
-func hurt():
-	pass
-
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "roll":
-		canMove = true
+		canmove = true
 
 func hit(damage: int) -> void:
 	pass

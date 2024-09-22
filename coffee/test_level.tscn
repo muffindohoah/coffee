@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://enemy.tscn" id="2_ngk4t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qbl10"]
-size = Vector2(1153, 56)
+size = Vector2(2055, 56)
 
 [sub_resource type="Gradient" id="Gradient_vw3uw"]
 colors = PackedColorArray(0.18, 0, 0.09, 1, 0.805288, 0.374496, 0.264924, 1)
@@ -24,7 +24,7 @@ shape = SubResource("RectangleShape2D_qbl10")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 position = Vector2(575.75, 619.875)
-scale = Vector2(4.50195, 55.75)
+scale = Vector2(8.01758, 55.75)
 texture = SubResource("GradientTexture1D_01e8s")
 
 [node name="Player" parent="." instance=ExtResource("1_1cwla")]
