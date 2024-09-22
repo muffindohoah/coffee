@@ -18,6 +18,9 @@ var canmove := true
 func _ready() -> void:
 	dodge_cooldown_timer.wait_time = COOLDOWN
 
+func _process(delta: float) -> void:
+	$Line2D.look_at(get_global_mouse_position())
+
 func _physics_process(delta: float) -> void:
 	
 	if canmove:
