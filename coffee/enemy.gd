@@ -12,8 +12,6 @@ var knockback: Vector2
 var health = INITIAL_HEALTH
 var targets: Array[Node2D] = []
 
-
-
 func _physics_process(delta: float) -> void:
 	
 	$healthLabel.text = str(health)
@@ -45,6 +43,11 @@ func hit(from:CharacterBody2D, damage: int) -> void:
 	health -= damage
 	if health <= 0:
 		die()
+	
+	self.knockback += Vector2(
+	sign(self.global_position.x - from.global_position.x) * 800,
+		-400
+	)
 
 func die() -> void:
 	queue_free()

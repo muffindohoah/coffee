@@ -1,14 +1,15 @@
 extends CharacterBody2D
 
 @onready var anim_player := $AnimationPlayer
+@onready var ammo_switch_cooldown := $ammoswitchcooldown
 @onready var dodge_cooldown_timer := $dodgecooldown
 @onready var counter_pivotpoint = $counterpivotpoint
 @onready var counter_hitbox = $counterpivotpoint/counter_hitbox
 @onready var slice_hitbox = $flip2d/slice_hitbox
 
 const COOLDOWN := 0.5
-const ROLL_SPEED := 1000
-const SPEED := 500.0
+const ROLL_SPEED := 800
+const SPEED := 400.0
 const GRAVITY := 5000.0
 const JUMP_SPEED := 0.3 * GRAVITY# + 1000.0
 const BASE_DAMAGE := 1
@@ -19,6 +20,7 @@ var knockback := Vector2.ZERO
 
 var isinvulnerable := true
 var canattack := true
+var candodge := true
 var canmove := true
 var doesgravity := true
 
@@ -50,11 +52,16 @@ func _input_process(delta: float):
 	
 	var direction := Input.get_axis("left", "right")
 	
+	if ammo_switch_cooldown.time_left == 0:
+		if Input.is_action_just_pressed("changeammo"):
+			Utils.ammo_switch()
+			ammo_switch_cooldown.start()
+	
 	if canattack:
 		if Input.is_action_just_pressed("melee"):
 			slice()
 	
-	if dodge_cooldown_timer.time_left <= 0:
+	if candodge:
 		if Input.is_action_just_pressed("dodgeparry") && (Input.is_action_pressed("left") or Input.is_action_pressed("right")):
 			roll(direction)
 			
@@ -78,7 +85,7 @@ func _movement_process(delta: float):
 	if direction > 0: $flip2d.face(1)
 
 func parry():
-	
+	candodge = false
 	isinvulnerable = true
 	doesgravity = false
 	anim_player.play("parry")
@@ -89,18 +96,16 @@ func counter(enemy):
 	counter_pivotpoint.look_at(enemy.position)
 	counter_hitbox.monitoring = true
 	anim_player.play()
-	#dodge_cooldown_timer.stop()
-	#dodge_cooldown_timer.start(0)
+	candodge = true
 	self.knockback += Vector2(
 			sign(self.global_position.x - enemy.global_position.x) * 1000,
 			-1000
 		)
 
-
 func roll(direction):
+	candodge = false
+	isinvulnerable = true
 	slice_hitbox.monitoring = false
-	
-	
 	set_collision_mask_value(5, false)
 	canmove = false
 	anim_player.play("roll")
@@ -112,6 +117,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "roll":
 		canmove = true
 		set_collision_mask_value(5, true)
+		isinvulnerable = false
 	if anim_name == "parry":
 		isinvulnerable = false
 		doesgravity = true
@@ -121,8 +127,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func hit(from: CharacterBody2D, damage: int) -> void:
 	if anim_player.current_animation == "parry":
 		counter(from)
-	elif anim_player.current_animation == "roll":
-		print("rollthrough")
+	elif isinvulnerable:
+		print("plink!")
 	else:
 		health -= damage
 		self.knockback += Vector2(
@@ -143,7 +149,6 @@ func slice():
 func _on_slice_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("damageable"):
 		body.hit(self, BASE_DAMAGE)
-		body.knockback += Vector2(
-			sign(body.global_position.x - global_position.x) * 400,
-			-300
-		)
+
+func _on_dodgecooldown_timeout() -> void:
+	candodge = true
