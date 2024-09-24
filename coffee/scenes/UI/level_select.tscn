@@ -1,108 +1,8 @@
-[gd_scene load_steps=32 format=3 uid="uid://1ywtb23tqqha"]
+[gd_scene load_steps=15 format=3 uid="uid://1ywtb23tqqha"]
 
-[ext_resource type="Script" path="res://level_select.gd" id="1_00viv"]
+[ext_resource type="Script" path="res://scenes/UI/level_select.gd" id="1_00viv"]
 [ext_resource type="ArrayMesh" uid="uid://qxdmtrcbi3gn" path="res://blends/mugcity.obj" id="1_fqjfc"]
-[ext_resource type="Shader" path="res://coffee.gdshader" id="2_d654r"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_shbsf"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nmnjk"]
-noise = SubResource("FastNoiseLite_shbsf")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_41c84"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_30nj7"]
-noise = SubResource("FastNoiseLite_41c84")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_e4wy3"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kx37q"]
-noise = SubResource("FastNoiseLite_e4wy3")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_1t4dj"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ubx33"]
-width = 2807
-height = 2372
-noise = SubResource("FastNoiseLite_1t4dj")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_rqp7f"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l2qt5"]
-noise = SubResource("FastNoiseLite_rqp7f")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_l73wt"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_v7qvm"]
-noise = SubResource("FastNoiseLite_l73wt")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_35nwl"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n1mwu"]
-width = 1697
-height = 1752
-noise = SubResource("FastNoiseLite_35nwl")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_r1ykk"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o1b5o"]
-width = 1687
-height = 1562
-noise = SubResource("FastNoiseLite_r1ykk")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qvs10"]
-render_priority = 0
-shader = ExtResource("2_d654r")
-shader_parameter/sync_time = 0.0
-shader_parameter/wave_speed = 1.0
-shader_parameter/caustic_speed = 0.01
-shader_parameter/edge_fade_power = 2.0
-shader_parameter/transmittence = 0.04
-shader_parameter/h_dist_trans_weight = 3.0
-shader_parameter/transmit_color = Color(0.758203, 0.35377, 0.201157, 1)
-shader_parameter/depth_fade = 0.3
-shader_parameter/depth_fade_distance = 5.0
-shader_parameter/surface_albedo = Color(1, 1, 1, 1)
-shader_parameter/surface_bottom = Color(0, 0, 0, 1)
-shader_parameter/opacity = 4.28
-shader_parameter/opacity_floor = 0.1
-shader_parameter/opacity_ceiling = 0.8
-shader_parameter/roughness = 1.0
-shader_parameter/height_scale = 0.025
-shader_parameter/amplitude1 = 1.235
-shader_parameter/amplitude2 = 1.99
-shader_parameter/v_noise_tile = 200
-shader_parameter/normal_noise_size = 5.12
-shader_parameter/normal_noise_speed = 0.05
-shader_parameter/v_normal_scale = 1.0
-shader_parameter/normal_map_w = 256
-shader_parameter/wobble_power = 0.01
-shader_parameter/sky_color = null
-shader_parameter/vertex_noise_big = SubResource("NoiseTexture2D_n1mwu")
-shader_parameter/vertex_noise_big2 = SubResource("NoiseTexture2D_o1b5o")
-shader_parameter/normal_noise = SubResource("NoiseTexture2D_ubx33")
-shader_parameter/normal_noise2 = SubResource("NoiseTexture2D_l2qt5")
-shader_parameter/under_wobble_noise = SubResource("NoiseTexture2D_v7qvm")
-shader_parameter/foam_color = Color(0.879112, 0.614989, 0.99998, 1)
-shader_parameter/foam_mask_size = 0.0
-shader_parameter/foam_mask_offset = Vector2(0, 0)
-shader_parameter/foam_wobble = 2.125
-shader_parameter/foam_wobble_size = 10.0
-shader_parameter/foam = SubResource("NoiseTexture2D_nmnjk")
-shader_parameter/foam_mask = SubResource("NoiseTexture2D_30nj7")
-shader_parameter/foam_wobble_noise = SubResource("NoiseTexture2D_kx37q")
-shader_parameter/high_color = Color(0, 0, 0, 1)
-shader_parameter/low_color = null
-shader_parameter/wave_color_range = 2.0
-shader_parameter/enable_fake_lighting = false
-shader_parameter/shine_strength = 0.17
-shader_parameter/shine_shininess = 18.0
-shader_parameter/shadow = 0.72
-shader_parameter/shadow_width = 0.18
-shader_parameter/shadow_color = Color(0.705, 0.705, 0.705, 0.705)
-shader_parameter/_specular_smoothness = 0.199
-shader_parameter/_specular_strength = 0.075
-shader_parameter/_glossiness = 0.067
+[ext_resource type="Material" uid="uid://di75rtlc78ieh" path="res://scenes/UI/coffee_mat.tres" id="3_hj4sm"]
 
 [sub_resource type="Animation" id="Animation_lv6sf"]
 length = 0.001
@@ -288,7 +188,7 @@ shadow_enabled = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_fqjfc")
-surface_material_override/1 = SubResource("ShaderMaterial_qvs10")
+surface_material_override/1 = ExtResource("3_hj4sm")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.976672, -0.0461113, 0.209726, 0, 0.976672, 0.214736, -0.214735, -0.209726, 0.953889, 0, 16.045, -1.58)

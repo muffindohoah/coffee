@@ -1,12 +1,31 @@
-[gd_scene load_steps=7 format=3 uid="uid://bas0bu0o58j5h"]
+[gd_scene load_steps=12 format=3 uid="uid://bas0bu0o58j5h"]
 
-[ext_resource type="Script" path="res://bagroller.gd" id="1_u1omf"]
-[ext_resource type="PhysicsMaterial" uid="uid://d08dykfdidb02" path="res://teabag_physmat.tres" id="1_xgfce"]
+[ext_resource type="Script" path="res://scenes/UI/subviewport.gd" id="1_tepnj"]
+[ext_resource type="Script" path="res://scenes/UI/bagroller.gd" id="1_u1omf"]
+[ext_resource type="PhysicsMaterial" uid="uid://d08dykfdidb02" path="res://scenes/UI/teabag_physmat.tres" id="1_xgfce"]
+[ext_resource type="Shader" path="res://shaders/gooch.gdshader" id="2_12ca7"]
+[ext_resource type="Shader" path="res://shaders/depth_outline.gdshader" id="2_ek0bh"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_pmyo6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ucstd"]
 size = Vector3(0.494385, 0.298584, 0.101563)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ad748"]
+render_priority = 0
+shader = ExtResource("2_ek0bh")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rvddd"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_ad748")
+shader = ExtResource("2_12ca7")
+shader_parameter/model_color = Color(0.149044, 0.308847, 0.167977, 1)
+shader_parameter/warm = Color(0.838185, 0.377689, 0.0981492, 1)
+shader_parameter/cold = Color(0.097, 0.7954, 0.97, 1)
+shader_parameter/cold_strength = 25.0
+shader_parameter/warm_strength = 25.0
+shader_parameter/smoothness = 1.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_y1kkc"]
 radial_segments = 6
@@ -16,6 +35,7 @@ radius = 0.45
 
 [node name="SubViewport" type="SubViewport"]
 transparent_bg = true
+script = ExtResource("1_tepnj")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.343936, 0.711015)
@@ -24,8 +44,7 @@ far = 1.66
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00907332, -0.0401803)
 shadow_enabled = true
-omni_range = 1.933
-omni_attenuation = -2.619
+omni_attenuation = 2.282
 
 [node name="CHAIN" type="HingeJoint3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.460499, -0.909919)
@@ -50,25 +69,26 @@ transform = Transform3D(4.37114e-08, 1, 8.74228e-08, 1, -4.37114e-08, 0, 3.82137
 shape = SubResource("BoxShape3D_ucstd")
 
 [node name="BLAST" type="HingeJoint3D" parent="."]
-transform = Transform3D(0.0581315, 0.0301101, -0.997855, -0.841334, -0.536569, -0.065204, -0.537381, 0.843319, -0.00585878, 0, 0.414887, -0.897307)
+transform = Transform3D(2.18557e-08, -3.78552e-08, -1, -0.866025, -0.5, 0, -0.5, 0.866025, -4.37114e-08, 0, 0.414887, -0.897307)
 node_a = NodePath("../MeshInstance3D/StaticBody3D")
 node_b = NodePath("RigidBody3D2")
 
 [node name="RigidBody3D2" type="RigidBody3D" parent="BLAST"]
-transform = Transform3D(0.537381, -0.0581314, -0.841334, -0.843319, -0.0301103, -0.536569, 0.00585871, 0.997855, -0.065204, -0.160257, 0.155849, 0.194836)
+transform = Transform3D(0.537381, -0.0581314, -0.841334, -0.843319, -0.0301102, -0.536569, 0.00585871, 0.997855, -0.065204, -0.160257, 0.155849, 0.194836)
 physics_material_override = ExtResource("1_xgfce")
 angular_damp = 30.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="BLAST/RigidBody3D2"]
-transform = Transform3D(0.424303, 4.10971e-08, 0.0534995, 3.42245e-08, -0.3, 1.63698e-08, 0.244972, -2.92698e-08, -0.0926638, 1.19209e-07, -0.2, -0.102122)
+transform = Transform3D(0.424347, -0.00452808, 0.0534585, 0.0107385, -0.299231, -0.00728973, 0.24466, 0.0209874, -0.0924004, 1.13249e-06, -0.19983, -0.102128)
 mesh = SubResource("BoxMesh_pmyo6")
+surface_material_override/0 = SubResource("ShaderMaterial_rvddd")
 
 [node name="Label3D" type="Label3D" parent="BLAST/RigidBody3D2/MeshInstance3D"]
 transform = Transform3D(1, -1.9984e-15, 0, 8.88178e-16, 1, -1.33227e-15, 1.19209e-07, -1.5099e-14, 1, -0.00941229, -1.60653e-08, -0.536898)
 text = "SHOTGUN"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BLAST/RigidBody3D2"]
-transform = Transform3D(0.866025, 1.3699e-07, 0.5, 6.98541e-08, -1, 1.5299e-07, 0.5, -9.7566e-08, -0.866025, 1.19209e-07, -0.2, -0.106975)
+transform = Transform3D(0.866115, -0.0150936, 0.499616, 0.0219179, -0.997436, -0.0681289, 0.499363, 0.0699581, -0.863564, -7.7486e-07, -0.20017, -0.106969)
 shape = SubResource("BoxShape3D_ucstd")
 
 [node name="FIRE" type="HingeJoint3D" parent="."]

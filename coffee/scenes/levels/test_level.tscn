@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://c0nddjj4e8i5j"]
 
-[ext_resource type="PackedScene" uid="uid://dsiagdguuasxg" path="res://player.tscn" id="1_1cwla"]
-[ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://enemy.tscn" id="2_ngk4t"]
-[ext_resource type="PackedScene" uid="uid://rb3o6v4vyo3e" path="res://ui.tscn" id="3_mk73u"]
+[ext_resource type="PackedScene" uid="uid://dsiagdguuasxg" path="res://scenes/player/player.tscn" id="1_1cwla"]
+[ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://scenes/enemies/enemy.tscn" id="2_ngk4t"]
+[ext_resource type="PackedScene" uid="uid://rb3o6v4vyo3e" path="res://scenes/UI/ui.tscn" id="3_mk73u"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n2l7a"]
 rough = true

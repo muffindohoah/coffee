@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bi4l1tlkulfy5"]
+
+[ext_resource type="Script" path="res://blends/shatter_cup.gd" id="1_4n58j"]
+[ext_resource type="PackedScene" uid="uid://bxfm4odvkgoa7" path="res://blends/mug-shatter.blend" id="2_3pfx3"]
+[ext_resource type="PackedScene" uid="uid://boc6glg3fmer3" path="res://scenes/UI/mug_editable.tscn" id="2_uh3gl"]
+
+[node name="shatter_cup" type="Node3D"]
+script = ExtResource("1_4n58j")
+
+[node name="mugOG" parent="." instance=ExtResource("2_uh3gl")]
+
+[node name="mug-shatter" parent="." instance=ExtResource("2_3pfx3")]
+visible = false
+
+[node name="explodeorigin" type="Marker3D" parent="mug-shatter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.83474, 0)

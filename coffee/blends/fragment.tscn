@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://tdniab6kolnn"]
+
+[ext_resource type="Script" path="res://blends/fragment.gd" id="1_5jnmm"]
+
+[node name="fragment" type="RigidBody3D"]
+gravity_scale = 3.306
+script = ExtResource("1_5jnmm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]

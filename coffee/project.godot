@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Coffee"
-run/main_scene="res://test_level.tscn"
+run/main_scene="res://scenes/levels/test_level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Utils="*res://utils.gd"
+Utils="*res://scenes/game/utils.gd"
 
 [display]
 

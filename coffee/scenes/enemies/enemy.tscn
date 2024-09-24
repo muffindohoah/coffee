@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c53gmymolr23u"]
 
-[ext_resource type="Script" path="res://enemy.gd" id="1_2kq0b"]
+[ext_resource type="Script" path="res://scenes/enemies/enemy.gd" id="1_2kq0b"]
 [ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_7f8vj"]
 
 [sub_resource type="Gradient" id="Gradient_787ac"]
@@ -42,6 +42,7 @@ root_node = NodePath("")
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detectionrange"]
+position = Vector2(-1, -52)
 shape = SubResource("CircleShape2D_t2uqc")
 
 [node name="attack" type="Area2D" parent="."]

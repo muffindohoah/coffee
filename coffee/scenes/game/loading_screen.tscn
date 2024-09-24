@@ -1,0 +1,94 @@
+[gd_scene load_steps=9 format=3 uid="uid://bkdgmw5jie3si"]
+
+[ext_resource type="Script" path="res://scenes/game/loading_screen.gd" id="1_0wspx"]
+[ext_resource type="FontFile" uid="uid://rck8c52cqqxp" path="res://font/font.otf" id="1_wlpji"]
+[ext_resource type="PackedScene" uid="uid://bi4l1tlkulfy5" path="res://blends/shatter_cup.tscn" id="3_4lovs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43s0f"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ifvm1"]
+bg_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+anti_aliasing = false
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_wwl7v"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dfqwx"]
+rough = true
+absorbent = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_plc0q"]
+size = Vector3(96.7666, 1, 98.6309)
+
+[node name="loading_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0wspx")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1156.0
+offset_bottom = 656.0
+color = Color(0.0553953, 0.0210391, 0.0137748, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 629.0
+offset_right = 1120.0
+offset_bottom = 638.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_wlpji")
+theme_override_font_sizes/font_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_43s0f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ifvm1")
+value = 56.0
+rounded = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 916.0
+offset_top = 413.0
+offset_right = 1407.0
+offset_bottom = 728.0
+texture = SubResource("ViewportTexture_wwl7v")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="shatter_cup" parent="SubViewport" instance=ExtResource("3_4lovs")]
+explosion_speed = 0.5
+
+[node name="mug-shatter" parent="SubViewport/shatter_cup" index="1"]
+visible = true
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1.91069e-15, -8.74228e-08, 1, -1.31134e-07, 1, 8.74228e-08, -1, -1.31134e-07, -9.55343e-15, 44.7505, 7.955, 1.92)
+current = true
+fov = 104.9
+size = 85.684
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -19.9272, 0)
+collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_dfqwx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewport/StaticBody3D"]
+shape = SubResource("BoxShape3D_plc0q")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.4595, -7.11005, 0)
+light_energy = 1.485
+shadow_enabled = true
+omni_range = 35.306
+omni_attenuation = 0.192
+
+[editable path="SubViewport/shatter_cup"]

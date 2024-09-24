@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://boc6glg3fmer3"]
+
+[ext_resource type="PackedScene" uid="uid://bxg3db1ak2yrv" path="res://blends/mug.blend" id="1_bbdqk"]
+[ext_resource type="Material" uid="uid://di75rtlc78ieh" path="res://scenes/UI/coffee_mat.tres" id="2_n8bpv"]
+
+[node name="mug2" instance=ExtResource("1_bbdqk")]
+
+[node name="coffee" parent="." index="1"]
+surface_material_override/0 = ExtResource("2_n8bpv")
