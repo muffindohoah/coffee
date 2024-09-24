@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c0nddjj4e8i5j"]
+[gd_scene load_steps=9 format=3 uid="uid://c0nddjj4e8i5j"]
 
 [ext_resource type="PackedScene" uid="uid://dsiagdguuasxg" path="res://scenes/player/player.tscn" id="1_1cwla"]
+[ext_resource type="Script" path="res://scenes/levels/test_level.gd" id="1_38ygx"]
 [ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://scenes/enemies/enemy.tscn" id="2_ngk4t"]
 [ext_resource type="PackedScene" uid="uid://be2nkgbeufkhh" path="res://scenes/UI/ui.tscn" id="3_mk73u"]
 
@@ -17,6 +18,7 @@ colors = PackedColorArray(0.18, 0, 0.09, 1, 0.805288, 0.374496, 0.264924, 1)
 gradient = SubResource("Gradient_vw3uw")
 
 [node name="test_level" type="Node2D" groups=["world"]]
+script = ExtResource("1_38ygx")
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="."]
 position = Vector2(252, 518)
@@ -84,7 +86,6 @@ texture = SubResource("GradientTexture1D_01e8s")
 
 [node name="player" parent="." instance=ExtResource("1_1cwla")]
 position = Vector2(167, 414)
-script = null
 
 [node name="enemy2" parent="." instance=ExtResource("2_ngk4t")]
 position = Vector2(-253, 517)

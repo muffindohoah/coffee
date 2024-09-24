@@ -25,7 +25,6 @@ var canmove := true
 var doesgravity := true
 
 func _ready() -> void:
-	
 	dodge_cooldown_timer.wait_time = COOLDOWN
 	counter_hitbox.monitoring = false
 	slice_hitbox.monitoring = false
