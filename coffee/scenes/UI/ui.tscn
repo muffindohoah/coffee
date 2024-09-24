@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://rb3o6v4vyo3e"]
+[gd_scene load_steps=8 format=3 uid="uid://be2nkgbeufkhh"]
 
-[ext_resource type="Script" path="res://scenes/UI/ui.gd" id="1_pvefs"]
-[ext_resource type="PackedScene" uid="uid://bas0bu0o58j5h" path="res://scenes/UI/rotating_teabags.tscn" id="1_yon0b"]
+[ext_resource type="Script" path="res://ui.gd" id="1_pvefs"]
+[ext_resource type="PackedScene" uid="uid://b1m8etammbcs7" path="res://rotating_teabags.tscn" id="1_yon0b"]
 [ext_resource type="FontFile" uid="uid://rck8c52cqqxp" path="res://font/font.otf" id="2_pldwn"]
+[ext_resource type="Script" path="res://subviewport.gd" id="3_hnkk7"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k0wqc"]
 viewport_path = NodePath("SubViewport")
@@ -21,6 +22,7 @@ font_size = 36
 script = ExtResource("1_pvefs")
 
 [node name="SubViewport" parent="." instance=ExtResource("1_yon0b")]
+script = ExtResource("3_hnkk7")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_left = 685.0

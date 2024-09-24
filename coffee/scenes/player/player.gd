@@ -16,7 +16,7 @@ const BASE_DAMAGE := 1
 const INITIAL_HEALTH := 3
 
 var health = INITIAL_HEALTH
-var knockback := Vector2.ZERO
+var movementvelocity := Vector2.ZERO
 
 var isinvulnerable := true
 var canattack := true
@@ -28,9 +28,10 @@ func _ready() -> void:
 	dodge_cooldown_timer.wait_time = COOLDOWN
 	counter_hitbox.monitoring = false
 	slice_hitbox.monitoring = false
+	anim_player.play("idle")
 
 func _process(delta: float) -> void:
-	$Line2D.look_at(get_global_mouse_position())
+	$weaponpivot.look_at(get_global_mouse_position())
 
 func _physics_process(delta: float) -> void:
 	
@@ -41,44 +42,45 @@ func _physics_process(delta: float) -> void:
 		_movement_process(delta)
 		_input_process(delta)
 	
-	knockback = knockback.move_toward(Vector2.ZERO, 2000 * delta)
+	velocity = velocity.move_toward(Vector2.ZERO, 2000 * delta)
 	
-	velocity += knockback
+	velocity += movementvelocity
 	move_and_slide()
-	velocity -= knockback # silly way of doing this
+	velocity -= movementvelocity # silly way of doing this
 
 
 func _input_process(delta: float):
 	
 	var direction := Input.get_axis("left", "right")
 	
-	if ammo_switch_cooldown.time_left == 0:
-		if Input.is_action_just_pressed("changeammo"):
-			Utils.ammo_switch()
-			ammo_switch_cooldown.start()
+	if ammo_switch_cooldown.time_left == 0 and Input.is_action_just_pressed("changeammo"):
+		Utils.ammo_switch()
+		ammo_switch_cooldown.start()
 	
-	if canattack:
-		if Input.is_action_just_pressed("melee"):
-			slice()
+	if canattack and Input.is_action_just_pressed("melee"):
+		slice()
 	
-	if candodge:
-		if Input.is_action_just_pressed("dodgeparry") && (Input.is_action_pressed("left") or Input.is_action_pressed("right")):
+	if canattack and Input.is_action_just_pressed("shoot"):
+		action_shoot()
+	
+	if candodge and Input.is_action_just_pressed("dodgeparry"):
+		if Input.is_action_pressed("left") or Input.is_action_pressed("right"):
 			roll(direction)
-			
-		elif Input.is_action_just_pressed("dodgeparry"):
+		else:
 			parry()
 
 func _movement_process(delta: float):
-	if doesgravity:
-		if not is_on_floor():
-			velocity.y += GRAVITY * delta
+	if doesgravity and not is_on_floor():
+		velocity.y += GRAVITY * delta
+	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y -= JUMP_SPEED
+	
 	var direction := Input.get_axis("left", "right")
 	
-	if direction < 0: velocity.x = -SPEED
-	if direction > 0: velocity.x = SPEED
-	if direction == 0: velocity.x = 0
+	if direction < 0: movementvelocity.x = -SPEED
+	if direction > 0: movementvelocity.x = SPEED
+	if direction == 0: movementvelocity.x = 0
 	
 	# flip sprites
 	if direction < 0: $flip2d.face(-1)
@@ -97,7 +99,7 @@ func counter(enemy):
 	counter_hitbox.monitoring = true
 	anim_player.play()
 	candodge = true
-	self.knockback += Vector2(
+	self.velocity += Vector2(
 			sign(self.global_position.x - enemy.global_position.x) * 1000,
 			-1000
 		)
@@ -123,6 +125,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		doesgravity = true
 		counter_hitbox.monitoring = false
 		counter_hitbox.monitorable = false
+	anim_player.play("idle")
 
 func hit(from: CharacterBody2D, damage: int) -> void:
 	if anim_player.current_animation == "parry":
@@ -131,10 +134,6 @@ func hit(from: CharacterBody2D, damage: int) -> void:
 		print("plink!")
 	else:
 		health -= damage
-		self.knockback += Vector2(
-			sign(self.global_position.x - from.global_position.x) * 1000,
-			-500
-		)
 
 func die() -> void:
 	queue_free()
@@ -142,9 +141,17 @@ func die() -> void:
 func _on_counter_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("damageable"):
 		body.hit(self, BASE_DAMAGE)
+		if body.is_in_group("enemy"):
+			body.velocity += Vector2(
+				sign(body.global_position.x - global_position.x) * 1000,
+				-500
+			)
 
 func slice():
 	anim_player.play("slice")
+
+func action_shoot():
+	$weaponpivot/Shotgun.action_primaryfire()
 
 func _on_slice_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("damageable"):
