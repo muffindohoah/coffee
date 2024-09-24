@@ -11,7 +11,7 @@ const COOLDOWN := 0.5
 const ROLL_SPEED := 800
 const SPEED := 400.0
 const GRAVITY := 5000.0
-const JUMP_SPEED := 0.3 * GRAVITY# + 1000.0
+const JUMP_SPEED := 0.3 * GRAVITY# + 1000.0 <-- ???
 const BASE_DAMAGE := 1
 const INITIAL_HEALTH := 3
 
@@ -25,6 +25,7 @@ var canmove := true
 var doesgravity := true
 
 func _ready() -> void:
+	
 	dodge_cooldown_timer.wait_time = COOLDOWN
 	counter_hitbox.monitoring = false
 	slice_hitbox.monitoring = false
@@ -36,7 +37,6 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	
 	$healthLabel.text = str(health)
-	
 	
 	if canmove:
 		_movement_process(delta)

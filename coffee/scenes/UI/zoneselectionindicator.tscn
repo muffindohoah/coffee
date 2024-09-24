@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://1csjo8nu0bt"]
 
-[ext_resource type="Script" path="res://scenes/zoneselectionindicator.gd" id="1_jqrp8"]
+[ext_resource type="Script" path="res://scenes/UI/zoneselectionindicator.gd" id="1_jqrp8"]
 
 [sub_resource type="Animation" id="Animation_rece6"]
 length = 0.001

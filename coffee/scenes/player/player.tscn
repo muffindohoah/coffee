@@ -1,9 +1,9 @@
 [gd_scene load_steps=18 format=3 uid="uid://dsiagdguuasxg"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_53qcj"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_53qcj"]
 [ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_m1dq5"]
 [ext_resource type="Texture2D" uid="uid://55rcn2028ki3" path="res://libresprite/placeholder_teaguy_idle.png" id="3_6qpj8"]
-[ext_resource type="PackedScene" uid="uid://dvsrfwsjm0ejv" path="res://hitbox.tscn" id="3_gko32"]
+[ext_resource type="PackedScene" uid="uid://dvsrfwsjm0ejv" path="res://scenes/components/hitbox.tscn" id="3_gko32"]
 [ext_resource type="PackedScene" uid="uid://b7mf5crkmbsfs" path="res://scenes/weapons/shotgun.tscn" id="4_xb2yo"]
 [ext_resource type="Texture2D" uid="uid://c5d0utfbkieao" path="res://libresprite/placeholder_teaguy_misc.png" id="5_lvjeq"]
 [ext_resource type="Texture2D" uid="uid://b8pntmw4ffecg" path="res://libresprite/placeholder_teaguy_melee.png" id="5_qqi0a"]

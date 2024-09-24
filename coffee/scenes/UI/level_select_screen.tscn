@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://ckp3dl2pyutkx"]
+[gd_scene load_steps=13 format=3 uid="uid://ckp3dl2pyutkx"]
 
-[ext_resource type="Script" path="res://scenes/level_select_screen.gd" id="1_gyyeg"]
+[ext_resource type="Script" path="res://scenes/UI/level_select_screen.gd" id="1_gyyeg"]
 [ext_resource type="PackedScene" uid="uid://dl1s6srjrn474" path="res://blends/mugcity.blend" id="1_omimu"]
+[ext_resource type="Material" uid="uid://di75rtlc78ieh" path="res://scenes/UI/coffee_mat.tres" id="3_alm1i"]
 [ext_resource type="Texture2D" uid="uid://dt44ku0vnmyhx" path="res://assets/rpgwhitelock_allskyfree/AllSkyFree_Sky_EpicGloriousPink_Equirect.png" id="3_m24n8"]
-[ext_resource type="PackedScene" uid="uid://1csjo8nu0bt" path="res://scenes/zoneselectionindicator.tscn" id="4_84ca4"]
+[ext_resource type="PackedScene" uid="uid://1csjo8nu0bt" path="res://scenes/UI/zoneselectionindicator.tscn" id="4_84ca4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s0h0l"]
 size = Vector3(6.66486, 10.6801, 10.6632)
@@ -33,6 +34,9 @@ size = Vector2(10000, 10000)
 script = ExtResource("1_gyyeg")
 
 [node name="mugcity" parent="." instance=ExtResource("1_omimu")]
+
+[node name="coffee" parent="mugcity" index="1"]
+surface_material_override/0 = ExtResource("3_alm1i")
 
 [node name="selectionarea_zonea" type="Area3D" parent="mugcity"]
 monitoring = false
@@ -103,3 +107,5 @@ environment = SubResource("Environment_vogjg")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_14s5j")
+
+[editable path="mugcity"]
