@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://dsiagdguuasxg"]
+[gd_scene load_steps=18 format=3 uid="uid://dsiagdguuasxg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_53qcj"]
 [ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_m1dq5"]
 [ext_resource type="PackedScene" uid="uid://dvsrfwsjm0ejv" path="res://hitbox.tscn" id="3_gko32"]
+[ext_resource type="PackedScene" uid="uid://b7mf5crkmbsfs" path="res://scenes/weapons/shotgun.tscn" id="4_xb2yo"]
 
 [sub_resource type="Gradient" id="Gradient_t1l8p"]
 
@@ -171,8 +172,12 @@ autostart = true
 [node name="dodgecooldown" type="Timer" parent="."]
 one_shot = true
 
-[node name="Line2D" type="Line2D" parent="."]
-position = Vector2(0, -33)
+[node name="weaponpivot" type="Node2D" parent="."]
+position = Vector2(0, -32)
+
+[node name="Shotgun" parent="weaponpivot" instance=ExtResource("4_xb2yo")]
+
+[node name="Line2D" type="Line2D" parent="weaponpivot"]
 points = PackedVector2Array(0, 0, 1000, 0)
 width = 1.0
 default_color = Color(1, 0, 0, 1)

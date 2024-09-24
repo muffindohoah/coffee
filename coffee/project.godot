@@ -30,6 +30,7 @@ hitbox="hitboxes for entities"
 enemy=""
 damageable="hit(), die()"
 player=""
+world="spawn enemies, projectiles, fx, etc. as a child of this"
 
 [input]
 

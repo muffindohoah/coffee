@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dsiagdguuasxg" path="res://player.tscn" id="1_1cwla"]
 [ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://enemy.tscn" id="2_ngk4t"]
-[ext_resource type="PackedScene" uid="uid://rb3o6v4vyo3e" path="res://ui.tscn" id="3_mk73u"]
+[ext_resource type="PackedScene" uid="uid://be2nkgbeufkhh" path="res://ui.tscn" id="3_mk73u"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n2l7a"]
 rough = true
@@ -16,7 +16,7 @@ colors = PackedColorArray(0.18, 0, 0.09, 1, 0.805288, 0.374496, 0.264924, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_01e8s"]
 gradient = SubResource("Gradient_vw3uw")
 
-[node name="test_level" type="Node2D"]
+[node name="test_level" type="Node2D" groups=["world"]]
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="."]
 position = Vector2(252, 518)

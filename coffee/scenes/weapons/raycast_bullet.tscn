@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnyn4e4gf0a8m"]
+
+[ext_resource type="Script" path="res://scenes/weapons/raycast_bullet.gd" id="1_ujmkq"]
+
+[node name="RaycastBullet" type="RayCast2D"]
+target_position = Vector2(100, 0)
+collision_mask = 19
+script = ExtResource("1_ujmkq")
+
+[node name="ttl" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 1000, 0)
+width = 1.0
+
+[connection signal="timeout" from="ttl" to="." method="_on_ttl_timeout"]
