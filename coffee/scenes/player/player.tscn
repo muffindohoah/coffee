@@ -12,8 +12,8 @@
 size = Vector2(60, 36)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_htvss"]
-radius = 32.0
-height = 64.0
+radius = 31.0
+height = 62.0
 
 [sub_resource type="Animation" id="Animation_j25g7"]
 length = 0.001
