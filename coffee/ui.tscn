@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://be2nkgbeufkhh"]
 
 [ext_resource type="Script" path="res://ui.gd" id="1_pvefs"]
-[ext_resource type="PackedScene" path="res://rotating_teabags.tscn" id="1_yon0b"]
+[ext_resource type="PackedScene" uid="uid://b1m8etammbcs7" path="res://rotating_teabags.tscn" id="1_yon0b"]
 [ext_resource type="FontFile" uid="uid://rck8c52cqqxp" path="res://font/font.otf" id="2_pldwn"]
 [ext_resource type="Script" path="res://subviewport.gd" id="3_hnkk7"]
 

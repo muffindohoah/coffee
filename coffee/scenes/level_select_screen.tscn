@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=3 uid="uid://ckp3dl2pyutkx"]
+
+[ext_resource type="Script" path="res://scenes/level_select_screen.gd" id="1_gyyeg"]
+[ext_resource type="PackedScene" uid="uid://dl1s6srjrn474" path="res://blends/mugcity.blend" id="1_omimu"]
+[ext_resource type="Texture2D" uid="uid://dt44ku0vnmyhx" path="res://assets/rpgwhitelock_allskyfree/AllSkyFree_Sky_EpicGloriousPink_Equirect.png" id="3_m24n8"]
+[ext_resource type="PackedScene" uid="uid://1csjo8nu0bt" path="res://scenes/zoneselectionindicator.tscn" id="4_84ca4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s0h0l"]
+size = Vector3(6.66486, 10.6801, 10.6632)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_be5t7"]
+size = Vector3(8.08441, 15.9926, 7.39614)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_rua3m"]
+panorama = ExtResource("3_m24n8")
+
+[sub_resource type="Sky" id="Sky_icqc3"]
+sky_material = SubResource("PanoramaSkyMaterial_rua3m")
+
+[sub_resource type="Environment" id="Environment_vogjg"]
+background_mode = 2
+sky = SubResource("Sky_icqc3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ublur"]
+transparency = 1
+albedo_color = Color(0, 0.372549, 1, 0.439216)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_14s5j"]
+material = SubResource("StandardMaterial3D_ublur")
+size = Vector2(10000, 10000)
+
+[node name="levelselect_screen" type="Node3D"]
+script = ExtResource("1_gyyeg")
+
+[node name="mugcity" parent="." instance=ExtResource("1_omimu")]
+
+[node name="selectionarea_zonea" type="Area3D" parent="mugcity"]
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mugcity/selectionarea_zonea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.02382, 12.823, -0.012166)
+shape = SubResource("BoxShape3D_s0h0l")
+
+[node name="zoneselectionindicator" parent="mugcity/selectionarea_zonea" instance=ExtResource("4_84ca4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.01837, 18.7708, 0)
+visible = false
+text = "AGRICULTURAL DISTRICT"
+
+[node name="selectionarea_zoneb" type="Area3D" parent="mugcity"]
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mugcity/selectionarea_zoneb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.883102, 12.823, -7.70411)
+shape = SubResource("BoxShape3D_be5t7")
+
+[node name="zoneselectionindicator" parent="mugcity/selectionarea_zoneb" instance=ExtResource("4_84ca4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.01837, 18.7708, -9)
+visible = false
+text = "HOUSING DISTRICT"
+
+[node name="selectionarea_zonec" type="Area3D" parent="mugcity"]
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mugcity/selectionarea_zonec"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.4788, 14.5049, -1.41321)
+shape = SubResource("BoxShape3D_be5t7")
+
+[node name="zoneselectionindicator" parent="mugcity/selectionarea_zonec" instance=ExtResource("4_84ca4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.98163, 19.7708, -1)
+visible = false
+text = "FACTORY DISTRICT"
+
+[node name="selectionarea_zoned" type="Area3D" parent="mugcity"]
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mugcity/selectionarea_zoned"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.784965, 15.4792, 9.27837)
+shape = SubResource("BoxShape3D_be5t7")
+
+[node name="zoneselectionindicator" parent="mugcity/selectionarea_zoned" instance=ExtResource("4_84ca4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0183725, 19.7708, 9)
+visible = false
+text = "BUSINESS DISTRICT"
+
+[node name="camerapivot" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 16, 0)
+
+[node name="Camera3D" type="Camera3D" parent="camerapivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.37114e-07, 0, 24)
+current = true
+
+[node name="selector" type="RayCast3D" parent="camerapivot/Camera3D"]
+target_position = Vector3(0, 0, -20)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.633193, 0.508244, 0.583741, -0.0476368, -0.778355, 0.626015, 0.772526, 0.368581, 0.51706, 0, 30, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vogjg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_14s5j")
