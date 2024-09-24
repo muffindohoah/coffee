@@ -28,6 +28,7 @@ func _ready() -> void:
 	dodge_cooldown_timer.wait_time = COOLDOWN
 	counter_hitbox.monitoring = false
 	slice_hitbox.monitoring = false
+	anim_player.play("idle")
 
 func _process(delta: float) -> void:
 	$weaponpivot.look_at(get_global_mouse_position())
@@ -124,6 +125,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		doesgravity = true
 		counter_hitbox.monitoring = false
 		counter_hitbox.monitorable = false
+	anim_player.play("idle")
 
 func hit(from: CharacterBody2D, damage: int) -> void:
 	if anim_player.current_animation == "parry":
