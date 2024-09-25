@@ -13,10 +13,10 @@ func _ready() -> void:
 		var c := get_collider() as Node2D
 		var dist := global_position.distance_to(get_collision_point())
 		$Line2D.set_point_position(1, Vector2(dist, 0))
-		if c.is_in_group("damageable"):
+		if c is Hurtbox:
 			c.hit(attacker, damage)
-			if c.is_in_group("enemy"):
-				c.velocity += (c.global_position - global_position).normalized() * 500
+			if c.host is CharacterBody2D:
+				c.host.velocity += (c.global_position - global_position).normalized() * 500
 	queue_redraw()
 
 func _on_ttl_timeout() -> void:

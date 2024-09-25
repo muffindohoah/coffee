@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var ammo_switch_cooldown := $ammoswitchcooldown
 @onready var dodge_cooldown_timer := $dodgecooldown
 @onready var counter_pivotpoint = $counterpivotpoint
-@onready var counter_hitbox = $counterpivotpoint/counter_hitbox
+@onready var counter_hitbox = $flip2d/counter_hitbox
 @onready var slice_hitbox = $flip2d/slice_hitbox
 
 const COOLDOWN := 0.5
@@ -29,12 +29,13 @@ enum State {
 }
 var state := State.IDLE
 
-var status_isinvulnerable := true
-var status_hasgravity := true
-var status_canmove := true
-var status_canjump := true
-var status_candodge := true
-var status_canattack := true
+var status_takesdamage    := true
+var status_takesknockback := true
+var status_hasgravity     := true
+var status_canmove        := true
+var status_canjump        := true
+var status_candodge       := true
+var status_canattack      := true
 func status_lockactions():
 	status_canmove = false
 	status_canjump = false
@@ -42,7 +43,10 @@ func status_lockactions():
 	status_canattack = false
 
 func state_change(from: State, to: State):
-	status_isinvulnerable = false
+	print("[%s] state %s" % [name, State.keys()[to]])
+	
+	status_takesdamage    = true
+	status_takesknockback = true
 	status_hasgravity     = true
 	status_canmove        = true
 	status_canjump        = true
@@ -59,28 +63,33 @@ func state_change(from: State, to: State):
 		anim_player.play("idle") # TODO
 	
 	elif to == State.DASH:
-		status_isinvulnerable = true
-		status_hasgravity = false
+		status_takesdamage = false
+		status_hasgravity  = false
 		status_lockactions()
 		var direction = Input.get_axis("left", "right")
 		action_dash(direction)
 	
 	elif to == State.MELEE:
-		status_isinvulnerable = true
+		status_takesdamage    = false
+		status_takesknockback = false
 		status_hasgravity     = false # cool factor
 		status_lockactions()
 		action_slice()
 	
 	elif to == State.RANGED:
-		status_isinvulnerable = true
+		status_takesdamage    = false
+		status_takesknockback = false
 		status_lockactions()
 		action_shoot()
 	
 	elif to == State.COUNTER:
-		status_isinvulnerable = true
+		status_takesdamage    = false
+		status_takesknockback = false
 		status_hasgravity     = false # cool factor
 		status_lockactions()
-		action_parry()
+		action_counter()
+	
+	state = to
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "idle": # IDLE state
@@ -152,26 +161,20 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	velocity -= movementvelocity # silly way of doing this
 
-func action_parry():
-	status_candodge = false
-	status_isinvulnerable = true
-	status_hasgravity = false
+func action_counter():
 	anim_player.play("parry")
 	dodge_cooldown_timer.start()
-
-func action_counter(enemy):
-	anim_player.pause()
-	counter_pivotpoint.look_at(enemy.position)
-	anim_player.play()
-	
+func action_counter_onhit(): # called when we get hit while in COUNTER state
+	print("[%s] attack countered!" % [name])
 	for hb in counter_hitbox.get_overlapping_hurtboxes():
-		if hb.host == self: continue
 		hb.hit(self, BASE_DAMAGE)
-		if hb.host is CharacterBody2D:
-			hb.velocity += Vector2(
-				sign(hb.global_position.x - global_position.x) * 1000,
+		if is_instance_valid(hb.host):
+			hb.knockback(Vector2(
+				sign(hb.host.global_position.x - global_position.x) * 1000,
 				-500
-			)
+			))
+			if hb.host.is_in_group("enemy"):
+				hb.host.state_change(hb.host.state, hb.host.State.IDLE)
 
 func action_dash(direction: int): # -1 for left, 1 for right
 	assert(direction != 0)
@@ -182,12 +185,16 @@ func action_dash(direction: int): # -1 for left, 1 for right
 	dodge_cooldown_timer.start()
 
 func hit(from: CharacterBody2D, damage: int) -> void:
-	if anim_player.current_animation == "parry":
-		action_counter(from)
-	elif status_isinvulnerable:
-		print("plink!")
-	else:
+	if state == State.COUNTER:
+		action_counter_onhit()
+	elif status_takesdamage:
 		health -= damage
+	else:
+		print("[%s] plink!" % [name])
+
+func knockback(velocity: Vector2) -> void:
+	if status_takesknockback:
+		self.velocity += velocity
 
 func die() -> void:
 	queue_free()
@@ -195,13 +202,12 @@ func die() -> void:
 func action_slice():
 	anim_player.play("slice")
 	for hb in slice_hitbox.get_overlapping_hurtboxes():
-		print("AAA")
 		hb.hit(self, BASE_DAMAGE)
-		if hb.host is CharacterBody2D:
-			hb.host.velocity += Vector2(
+		if is_instance_valid(hb.host):
+			hb.knockback(Vector2(
 				sign(hb.host.global_position.x - global_position.x) * 1000,
 				-500
-			)
+			))
 	velocity += Vector2($flip2d.scale.x * 500, 0)
 
 func action_shoot():

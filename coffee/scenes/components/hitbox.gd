@@ -24,3 +24,11 @@ func get_overlapping_hurtboxes() -> Array[Hurtbox]:
 		result.append(a)
 	print(result.size())
 	return result
+
+signal hurtbox_entered(hurtbox: Hurtbox)
+
+func _ready() -> void:
+	area_entered.connect(_on_area_entered) # do this in _ready() so the signals tab in the inspector doesn't get polluted
+func _on_area_entered(area: Area2D) -> void:
+	if area is Hurtbox:
+		hurtbox_entered.emit(area)

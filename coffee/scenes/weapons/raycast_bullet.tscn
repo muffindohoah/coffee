@@ -4,7 +4,9 @@
 
 [node name="RaycastBullet" type="RayCast2D"]
 target_position = Vector2(100, 0)
-collision_mask = 19
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
 script = ExtResource("1_ujmkq")
 
 [node name="ttl" type="Timer" parent="."]
