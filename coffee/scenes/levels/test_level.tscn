@@ -25,8 +25,6 @@ position = Vector2(252, 518)
 rotation = -3.14158
 scale = Vector2(0.0955778, 0.361647)
 skew = 0.000340223
-collision_layer = 2
-collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_n2l7a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
@@ -42,8 +40,6 @@ texture = SubResource("GradientTexture1D_01e8s")
 position = Vector2(1153, 535)
 rotation = -4.71238
 scale = Vector2(0.141795, 4.4618)
-collision_layer = 2
-collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
 position = Vector2(0.5, 3)
@@ -58,8 +54,6 @@ texture = SubResource("GradientTexture1D_01e8s")
 position = Vector2(-438, 470)
 rotation = -1.57079
 scale = Vector2(0.421813, 0.999958)
-collision_layer = 2
-collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(0.5, 3)
@@ -72,8 +66,6 @@ texture = SubResource("GradientTexture1D_01e8s")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(611, 653)
-collision_layer = 2
-collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0.5, 3)

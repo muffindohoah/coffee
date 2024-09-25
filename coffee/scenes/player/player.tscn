@@ -8,8 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://c5d0utfbkieao" path="res://libresprite/placeholder_teaguy_misc.png" id="5_lvjeq"]
 [ext_resource type="Texture2D" uid="uid://b8pntmw4ffecg" path="res://libresprite/placeholder_teaguy_melee.png" id="5_qqi0a"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u8y4p"]
-size = Vector2(60, 36)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xd0gn"]
+size = Vector2(127, 63)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_htvss"]
 radius = 31.0
@@ -455,11 +455,11 @@ _data = {
 "slice": SubResource("Animation_hp5m2")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtmy3"]
-size = Vector2(33, 63.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2agw0"]
+size = Vector2(48, 63)
 
 [node name="player" type="CharacterBody2D" groups=["damageable", "player"]]
-collision_mask = 18
+collision_layer = 4
 script = ExtResource("1_53qcj")
 
 [node name="flip2d" parent="." instance=ExtResource("2_m1dq5")]
@@ -470,13 +470,12 @@ position = Vector2(4, -32)
 texture = ExtResource("3_6qpj8")
 hframes = 2
 
-[node name="slice_hitbox" parent="flip2d" instance=ExtResource("3_gko32")]
-collision_layer = 0
-collision_mask = 16
+[node name="slice_hitbox" parent="flip2d" node_paths=PackedStringArray("host") instance=ExtResource("3_gko32")]
+host = NodePath("../..")
 
-[node name="CollisionShape2D" parent="flip2d/slice_hitbox" index="0"]
-position = Vector2(62, -26)
-shape = SubResource("RectangleShape2D_u8y4p")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="flip2d/slice_hitbox"]
+position = Vector2(45.5, -31.5)
+shape = SubResource("RectangleShape2D_xd0gn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -32)
@@ -515,25 +514,21 @@ default_color = Color(1, 0, 0, 1)
 [node name="counterpivotpoint" type="Node2D" parent="."]
 position = Vector2(0, -32)
 
-[node name="counter_hitbox" parent="counterpivotpoint" instance=ExtResource("3_gko32")]
+[node name="counter_hitbox" parent="counterpivotpoint" node_paths=PackedStringArray("host") instance=ExtResource("3_gko32")]
 position = Vector2(0, 32)
-collision_layer = 0
-collision_mask = 16
+host = NodePath("../..")
 
-[node name="CollisionShape2D" parent="counterpivotpoint/counter_hitbox" index="0"]
-position = Vector2(48.5, -32.25)
-shape = SubResource("RectangleShape2D_vtmy3")
-debug_color = Color(0.945308, 0.194628, 0.340541, 0.42)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="counterpivotpoint/counter_hitbox"]
+position = Vector2(55, -31.5)
+shape = SubResource("RectangleShape2D_2agw0")
 
 [node name="healthLabel" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
 
-[connection signal="body_entered" from="flip2d/slice_hitbox" to="." method="_on_slice_hitbox_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
 [connection signal="timeout" from="dodgecooldown" to="." method="_on_dodgecooldown_timeout"]
-[connection signal="body_entered" from="counterpivotpoint/counter_hitbox" to="." method="_on_counter_hitbox_body_entered"]
 
 [editable path="flip2d/slice_hitbox"]
 [editable path="counterpivotpoint/counter_hitbox"]

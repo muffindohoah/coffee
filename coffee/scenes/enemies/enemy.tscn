@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://c53gmymolr23u"]
+[gd_scene load_steps=10 format=3 uid="uid://c53gmymolr23u"]
 
 [ext_resource type="Script" path="res://scenes/enemies/enemy.gd" id="1_2kq0b"]
 [ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_7f8vj"]
+[ext_resource type="PackedScene" uid="uid://d3e5wwkxukfgt" path="res://scenes/components/hurtbox.tscn" id="3_an6mj"]
 
 [sub_resource type="Gradient" id="Gradient_787ac"]
 colors = PackedColorArray(0.0624614, 0.00736692, 1.50409e-09, 1, 0.81502, 1.01075e-06, 1.92523e-07, 1)
@@ -19,9 +20,11 @@ radius = 269.03
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqgik"]
 size = Vector2(92, 107)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_roskk"]
+size = Vector2(64, 95)
+
 [node name="enemy" type="CharacterBody2D" groups=["damageable", "enemy"]]
-collision_layer = 16
-collision_mask = 18
+collision_layer = 4
 script = ExtResource("1_2kq0b")
 
 [node name="flip2d" parent="." instance=ExtResource("2_7f8vj")]
@@ -39,6 +42,8 @@ shape = SubResource("CapsuleShape2D_vrsvm")
 root_node = NodePath("")
 
 [node name="detectionrange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detectionrange"]
@@ -56,6 +61,13 @@ shape = SubResource("RectangleShape2D_hqgik")
 offset_right = 40.0
 offset_bottom = 23.0
 text = "0"
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("host") instance=ExtResource("3_an6mj")]
+host = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -48.5)
+shape = SubResource("RectangleShape2D_roskk")
 
 [connection signal="body_entered" from="detectionrange" to="." method="_on_detectionrange_body_entered"]
 [connection signal="body_entered" from="attack" to="." method="_on_attack_body_entered"]

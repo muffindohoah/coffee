@@ -11,24 +11,98 @@ const COOLDOWN := 0.5
 const ROLL_SPEED := 800
 const SPEED := 400.0
 const GRAVITY := 5000.0
-const JUMP_SPEED := 0.3 * GRAVITY# + 1000.0 <-- ???
+const JUMP_SPEED := 0.3 * GRAVITY# + 1000.0 <-- ??? <--- idk
 const BASE_DAMAGE := 1
 const INITIAL_HEALTH := 3
 
 var health = INITIAL_HEALTH
 var movementvelocity := Vector2.ZERO
 
-var isinvulnerable := true
-var canattack := true
-var candodge := true
-var canmove := true
-var doesgravity := true
+enum State {
+	IDLE,
+	RUN,
+	AIR, # falling
+	DASH,
+	MELEE,
+	RANGED, # gun
+	COUNTER,
+}
+var state := State.IDLE
+
+var status_isinvulnerable := true
+var status_hasgravity := true
+var status_canmove := true
+var status_canjump := true
+var status_candodge := true
+var status_canattack := true
+func status_lockactions():
+	status_canmove = false
+	status_canjump = false
+	status_candodge = false
+	status_canattack = false
+
+func state_change(from: State, to: State):
+	status_isinvulnerable = false
+	status_hasgravity     = true
+	status_canmove        = true
+	status_canjump        = true
+	status_candodge       = true
+	status_canattack      = true
+	
+	if to == State.IDLE:
+		anim_player.play("idle")
+	
+	elif to == State.RUN:
+		anim_player.play("idle") # TODO
+	
+	elif to == State.AIR:
+		anim_player.play("idle") # TODO
+	
+	elif to == State.DASH:
+		status_isinvulnerable = true
+		status_hasgravity = false
+		status_lockactions()
+		var direction = Input.get_axis("left", "right")
+		action_dash(direction)
+	
+	elif to == State.MELEE:
+		status_isinvulnerable = true
+		status_hasgravity     = false # cool factor
+		status_lockactions()
+		action_slice()
+	
+	elif to == State.RANGED:
+		status_isinvulnerable = true
+		status_lockactions()
+		action_shoot()
+	
+	elif to == State.COUNTER:
+		status_isinvulnerable = true
+		status_hasgravity     = false # cool factor
+		status_lockactions()
+		action_parry()
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "idle": # IDLE state
+		pass
+	elif anim_name == "idle": # RUN (TODO)
+		pass
+	elif anim_name == "idle": # AIR (TODO)
+		pass
+	elif anim_name == "roll": # DASH (TODO)
+		#set_collision_mask_value(5, true)
+		state_change(state, State.IDLE)
+	elif anim_name == "slice": # MELEE
+		state_change(state, State.IDLE)
+	elif anim_name == "idle": # RANGED (TODO)
+		pass
+	elif anim_name == "parry": # COUNTER
+		state_change(state, State.IDLE)
+	#anim_player.play("idle")
 
 func _ready() -> void:
 	dodge_cooldown_timer.wait_time = COOLDOWN
-	counter_hitbox.monitoring = false
-	slice_hitbox.monitoring = false
-	anim_player.play("idle")
+	state_change(State.IDLE, State.IDLE)
 
 func _process(delta: float) -> void:
 	$weaponpivot.look_at(get_global_mouse_position())
@@ -37,9 +111,40 @@ func _physics_process(delta: float) -> void:
 	
 	$healthLabel.text = str(health)
 	
-	if canmove:
-		_movement_process(delta)
-		_input_process(delta)
+	var direction := Input.get_axis("left", "right")
+	
+	if status_hasgravity and not is_on_floor():
+		velocity.y += GRAVITY * delta
+	
+	if status_canjump and Input.is_action_just_pressed("jump") and is_on_floor():
+		velocity.y -= JUMP_SPEED
+	
+	if ammo_switch_cooldown.time_left == 0 and Input.is_action_just_pressed("changeammo"):
+		Utils.ammo_switch()
+		ammo_switch_cooldown.start()
+	
+	if status_canattack and Input.is_action_just_pressed("melee"):
+		state_change(state, State.MELEE)
+	
+	if status_canattack and Input.is_action_just_pressed("shoot"):
+		state_change(state, State.RANGED)
+	
+	if status_candodge and Input.is_action_just_pressed("dodgeparry"):
+		if direction:
+			state_change(state, State.DASH)
+		else:
+			state_change(state, State.COUNTER)
+	
+	if status_canmove:
+		if direction < 0: movementvelocity.x = -SPEED
+		if direction > 0: movementvelocity.x = SPEED
+		if direction == 0: movementvelocity.x = 0
+		
+		# flip sprites
+		if direction < 0: $flip2d.face(-1)
+		if direction > 0: $flip2d.face(1)
+	else:
+		movementvelocity.x = 0
 	
 	velocity = velocity.move_toward(Vector2.ZERO, 2000 * delta)
 	
@@ -47,89 +152,39 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	velocity -= movementvelocity # silly way of doing this
 
-
-func _input_process(delta: float):
-	
-	var direction := Input.get_axis("left", "right")
-	
-	if ammo_switch_cooldown.time_left == 0 and Input.is_action_just_pressed("changeammo"):
-		Utils.ammo_switch()
-		ammo_switch_cooldown.start()
-	
-	if canattack and Input.is_action_just_pressed("melee"):
-		slice()
-	
-	if canattack and Input.is_action_just_pressed("shoot"):
-		action_shoot()
-	
-	if candodge and Input.is_action_just_pressed("dodgeparry"):
-		if Input.is_action_pressed("left") or Input.is_action_pressed("right"):
-			roll(direction)
-		else:
-			parry()
-
-func _movement_process(delta: float):
-	if doesgravity and not is_on_floor():
-		velocity.y += GRAVITY * delta
-	
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y -= JUMP_SPEED
-	
-	var direction := Input.get_axis("left", "right")
-	
-	if direction < 0: movementvelocity.x = -SPEED
-	if direction > 0: movementvelocity.x = SPEED
-	if direction == 0: movementvelocity.x = 0
-	
-	# flip sprites
-	if direction < 0: $flip2d.face(-1)
-	if direction > 0: $flip2d.face(1)
-
-func parry():
-	candodge = false
-	isinvulnerable = true
-	doesgravity = false
+func action_parry():
+	status_candodge = false
+	status_isinvulnerable = true
+	status_hasgravity = false
 	anim_player.play("parry")
 	dodge_cooldown_timer.start()
 
-func counter(enemy):
+func action_counter(enemy):
 	anim_player.pause()
 	counter_pivotpoint.look_at(enemy.position)
-	counter_hitbox.monitoring = true
 	anim_player.play()
-	candodge = true
-	self.velocity += Vector2(
-			sign(self.global_position.x - enemy.global_position.x) * 1000,
-			-1000
-		)
+	
+	for hb in counter_hitbox.get_overlapping_hurtboxes():
+		if hb.host == self: continue
+		hb.hit(self, BASE_DAMAGE)
+		if hb.host is CharacterBody2D:
+			hb.velocity += Vector2(
+				sign(hb.global_position.x - global_position.x) * 1000,
+				-500
+			)
 
-func roll(direction):
-	candodge = false
-	isinvulnerable = true
-	slice_hitbox.monitoring = false
-	set_collision_mask_value(5, false)
-	canmove = false
+func action_dash(direction: int): # -1 for left, 1 for right
+	assert(direction != 0)
+	#set_collision_mask_value(5, false)
 	anim_player.play("roll")
 	velocity.y += -20
 	velocity.x = direction * ROLL_SPEED
 	dodge_cooldown_timer.start()
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "roll":
-		canmove = true
-		set_collision_mask_value(5, true)
-		isinvulnerable = false
-	if anim_name == "parry":
-		isinvulnerable = false
-		doesgravity = true
-		counter_hitbox.monitoring = false
-		counter_hitbox.monitorable = false
-	anim_player.play("idle")
-
 func hit(from: CharacterBody2D, damage: int) -> void:
 	if anim_player.current_animation == "parry":
-		counter(from)
-	elif isinvulnerable:
+		action_counter(from)
+	elif status_isinvulnerable:
 		print("plink!")
 	else:
 		health -= damage
@@ -137,24 +192,21 @@ func hit(from: CharacterBody2D, damage: int) -> void:
 func die() -> void:
 	queue_free()
 
-func _on_counter_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("damageable"):
-		body.hit(self, BASE_DAMAGE)
-		if body.is_in_group("enemy"):
-			body.velocity += Vector2(
-				sign(body.global_position.x - global_position.x) * 1000,
+func action_slice():
+	anim_player.play("slice")
+	for hb in slice_hitbox.get_overlapping_hurtboxes():
+		print("AAA")
+		hb.hit(self, BASE_DAMAGE)
+		if hb.host is CharacterBody2D:
+			hb.host.velocity += Vector2(
+				sign(hb.host.global_position.x - global_position.x) * 1000,
 				-500
 			)
-
-func slice():
-	anim_player.play("slice")
+	velocity += Vector2($flip2d.scale.x * 500, 0)
 
 func action_shoot():
+	anim_player.play("slice") # TODO
 	$weaponpivot/Shotgun.action_primaryfire()
 
-func _on_slice_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("damageable"):
-		body.hit(self, BASE_DAMAGE)
-
 func _on_dodgecooldown_timeout() -> void:
-	candodge = true
+	status_candodge = true

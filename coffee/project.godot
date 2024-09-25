@@ -83,6 +83,6 @@ zoom_out={
 
 [layer_names]
 
-2d_physics/layer_1="Player"
-2d_physics/layer_2="World"
-2d_physics/layer_5="Enemies"
+2d_physics/layer_1="WORLD"
+2d_physics/layer_2="HURTBOX"
+2d_physics/layer_3="ENTITY"
