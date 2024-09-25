@@ -51,7 +51,8 @@ position = Vector2(-1, -52)
 shape = SubResource("CircleShape2D_t2uqc")
 
 [node name="attack" type="Area2D" parent="."]
-monitorable = false
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack"]
 position = Vector2(0, -54.5)
@@ -63,6 +64,7 @@ offset_bottom = 23.0
 text = "0"
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("host") instance=ExtResource("3_an6mj")]
+collision_mask = 2
 host = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]

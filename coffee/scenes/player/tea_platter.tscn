@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://do8mnuylfqalm"]
+
+[ext_resource type="PackedScene" uid="uid://bboek8iddxpsa" path="res://blends/hat.blend" id="1_c55p6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ihaai"]
+diffuse_mode = 2
+specular_mode = 2
+rim = 0.0
+backlight_enabled = true
+backlight = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_meflt"]
+shading_mode = 0
+
+[node name="SubViewport" type="SubViewport"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="hat" parent="." instance=ExtResource("1_c55p6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.12047)
+
+[node name="Cylinder" parent="hat" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ihaai")
+surface_material_override/1 = SubResource("StandardMaterial3D_meflt")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.760359, 0)
+omni_attenuation = 2.143
+
+[editable path="hat"]

@@ -20,6 +20,7 @@ var movementvelocity := Vector2.ZERO
 
 enum State {
 	IDLE,
+	WALK, #attacking, aiming, misc
 	RUN,
 	AIR, # falling
 	DASH,
@@ -52,6 +53,9 @@ func state_change(from: State, to: State):
 	if to == State.IDLE:
 		anim_player.play("idle")
 	
+	elif to == State.WALK:
+		pass
+	
 	elif to == State.RUN:
 		anim_player.play("idle") # TODO
 	
@@ -67,7 +71,7 @@ func state_change(from: State, to: State):
 	
 	elif to == State.MELEE:
 		status_isinvulnerable = true
-		status_hasgravity     = false # cool factor
+		status_hasgravity     = false # cool factor; based
 		status_lockactions()
 		action_slice()
 	
@@ -139,6 +143,8 @@ func _physics_process(delta: float) -> void:
 		if direction < 0: movementvelocity.x = -SPEED
 		if direction > 0: movementvelocity.x = SPEED
 		if direction == 0: movementvelocity.x = 0
+		
+		
 		
 		# flip sprites
 		if direction < 0: $flip2d.face(-1)
