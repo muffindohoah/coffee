@@ -1,11 +1,9 @@
 extends CharacterBody2D
 
-
+@export var ROAMING_SPEED = 100.0
 @export var SPEED = 300.0
 @export var ACCELERATION = 500.0
-@export var JUMP_VELOCITY = -400.0
 @export var INITIAL_HEALTH = 2
-@export var BASE_DAMAGE = 1
 const GRAVITY := 5000.0
 
 var movementvelocity := Vector2.ZERO
@@ -20,7 +18,7 @@ enum State {
 }
 var state := State.IDLE
 
-var status_canmove := true
+var status_canmove = true
 
 func state_change(from: State, to: State):
 	print("[%s] state %s" % [name, State.keys()[to]])
@@ -30,6 +28,7 @@ func state_change(from: State, to: State):
 	if to == State.IDLE:
 		$AnimationPlayer.play("idle")
 	elif to == State.ATTACK:
+		
 		action_attack()
 	elif to == State.DEAD:
 		status_canmove = false
@@ -42,17 +41,22 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "idle": # IDLE state
 		pass
 	elif anim_name == "attack": # ATTACK
-		hurt_overlapping_hurtboxes()
-		state_change(state, State.IDLE)
+		spawn_pot()
+		if is_instance_valid($playersensor.get_collider()):
+			if $playersensor.get_collider().is_in_group("player"):
+				print(status_canmove)
+				
+				action_attack()
+				
+			else:
+				$AnimationPlayer.play("raise")
+				state_change(state, State.IDLE)
 
-func hurt_overlapping_hurtboxes():
-	for hb in $flip2d/attack.get_overlapping_hurtboxes():
-			hb.hit(self, BASE_DAMAGE)
-			if is_instance_valid(hb.host):
-				hb.knockback(Vector2(
-					sign(hb.host.global_position.x - global_position.x) * 800,
-					-400
-				))
+func spawn_pot():
+	print("spawn pot")
+	var pot_instance = load("res://scenes/enemies/pot.tscn").instantiate()
+	pot_instance.position = Vector2(self.position.x + 40, self.position.y)
+	get_parent().add_child(pot_instance)
 
 func _physics_process(delta: float) -> void:
 	
@@ -62,31 +66,37 @@ func _physics_process(delta: float) -> void:
 		velocity.y += GRAVITY * delta
 	
 	# move toward player
-	if status_canmove and !targets.is_empty():
-		if is_instance_valid(targets[0]):
-			var t := targets[0] # target
-			var dir := (t.global_position - global_position).normalized() # vector pointing towards target
-			if dir.x < 0:
-				movementvelocity.x = move_toward(movementvelocity.x, -SPEED, ACCELERATION * delta)
-				$flip2d.face(-1)
+	if status_canmove and $playersensor.is_colliding():
+		if is_instance_valid($playersensor.get_collider()):
+			
+			if $playersensor.get_collider().is_in_group("player"):
+				status_canmove = false
+				state_change(state, State.ATTACK)
 			else:
-				movementvelocity.x = move_toward(movementvelocity.x, SPEED, ACCELERATION * delta)
-				$flip2d.face(1)
+				_roam_process(delta)
+				
 		else:
-			movementvelocity.x = move_toward(movementvelocity.x, 0, ACCELERATION * delta)
+			_roam_process(delta)
 	else:
-		movementvelocity.x = move_toward(movementvelocity.x, 0, ACCELERATION * 3 * delta)
-	
-	# attack if close enough
-	if !targets.is_empty() and is_instance_valid(targets[0]):
-		if state == State.IDLE and global_position.distance_to(targets[0].global_position) < 100:
-			state_change(state, State.ATTACK)
-	
+		movementvelocity.x = move_toward(movementvelocity.x, 0, ACCELERATION)
+
 	
 	velocity = velocity.move_toward(Vector2.ZERO, 2000 * delta)
 	velocity += movementvelocity
 	move_and_slide()
 	velocity -= movementvelocity
+
+func _roam_process(delta):
+	if status_canmove:
+		if $flip2d.is_right():
+			movementvelocity.x = move_toward(movementvelocity.x, ROAMING_SPEED, ACCELERATION)
+		else:
+			movementvelocity.x = -move_toward(movementvelocity.x, ROAMING_SPEED, ACCELERATION)
+	
+	if $flip2d/walldetection.get_overlapping_bodies():
+		for body in $flip2d/walldetection.get_overlapping_bodies():
+			if body.get_class() == "StaticBody2D":
+				$flip2d.face()
 
 func hit(from: Node2D, damage: int) -> void:
 	health -= damage
@@ -102,7 +112,3 @@ func die() -> void:
 func action_attack() -> void:
 	status_canmove = false
 	$AnimationPlayer.play("attack")
-
-func _on_detectionrange_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		targets.append(body)

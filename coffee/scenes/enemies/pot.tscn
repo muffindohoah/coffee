@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://h4axplf103un"]
+
+[ext_resource type="Texture2D" uid="uid://bc52su8m0ef6v" path="res://assets/circle.png" id="1_u5n2d"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3xfgm"]
+rough = true
+bounce = 0.18
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_muinm"]
+
+[node name="Node2D" type="RigidBody2D"]
+collision_layer = 4
+physics_material_override = SubResource("PhysicsMaterial_3xfgm")
+angular_damp_mode = 1
+constant_torque = 1000.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_muinm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0741752, 0.0742112)
+texture = ExtResource("1_u5n2d")

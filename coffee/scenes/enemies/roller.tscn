@@ -1,0 +1,141 @@
+[gd_scene load_steps=15 format=3 uid="uid://caos8df1eyiql"]
+
+[ext_resource type="Script" path="res://scenes/enemies/roller.gd" id="1_irnns"]
+[ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_jsnl4"]
+[ext_resource type="PackedScene" uid="uid://d3e5wwkxukfgt" path="res://scenes/components/hurtbox.tscn" id="3_k6pru"]
+
+[sub_resource type="Gradient" id="Gradient_nk8y3"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1yhhh"]
+gradient = SubResource("Gradient_nk8y3")
+
+[sub_resource type="Gradient" id="Gradient_sikyx"]
+offsets = PackedFloat32Array(0.777108, 1)
+colors = PackedColorArray(0.0355994, 0.136086, 0.263623, 1, 0.605958, 0.832089, 0.994509, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_imath"]
+gradient = SubResource("Gradient_sikyx")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ree0"]
+size = Vector2(20, 89)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_txj8s"]
+radius = 38.0
+height = 110.0
+
+[sub_resource type="Animation" id="Animation_2idbn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flip2d/Sprite2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kf8mq"]
+resource_name = "attack"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flip2d/Sprite2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.566667),
+"transitions": PackedFloat32Array(0.34151, 0.267943),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-31.47, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4wx7v"]
+resource_name = "raise"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flip2d/Sprite2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(0.267943, 0.34151),
+"update": 0,
+"values": [Vector2(-31.47, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tsx7v"]
+_data = {
+"RESET": SubResource("Animation_2idbn"),
+"attack": SubResource("Animation_kf8mq"),
+"raise": SubResource("Animation_4wx7v")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dt4kn"]
+size = Vector2(73.9183, 103.679)
+
+[node name="roller" type="CharacterBody2D"]
+scale = Vector2(0.487024, 0.453322)
+collision_layer = 4
+script = ExtResource("1_irnns")
+
+[node name="flip2d" parent="." instance=ExtResource("2_jsnl4")]
+
+[node name="weels2" type="Sprite2D" parent="flip2d"]
+position = Vector2(-8, 45)
+rotation = 1.5708
+scale = Vector2(0.093, 53.683)
+skew = -2.52724e-05
+texture = SubResource("GradientTexture1D_1yhhh")
+
+[node name="Sprite2D" type="Sprite2D" parent="flip2d"]
+position = Vector2(0, 0.999996)
+rotation = -1.5708
+scale = Vector2(0.411611, 75.6838)
+texture = SubResource("GradientTexture1D_imath")
+
+[node name="weels" type="Sprite2D" parent="flip2d"]
+position = Vector2(7, 47)
+rotation = 1.5708
+scale = Vector2(0.093, 53.683)
+texture = SubResource("GradientTexture1D_1yhhh")
+
+[node name="walldetection" type="Area2D" parent="flip2d"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="flip2d/walldetection"]
+position = Vector2(72, -5.5)
+shape = SubResource("RectangleShape2D_2ree0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_txj8s")
+
+[node name="playersensor" type="RayCast2D" parent="."]
+target_position = Vector2(1700, 0)
+collision_mask = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tsx7v")
+}
+
+[node name="healthLabel" type="Label" parent="."]
+offset_left = -24.0
+offset_top = -83.0
+offset_right = 25.0
+offset_bottom = -52.0
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("host") instance=ExtResource("3_k6pru")]
+host = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-1.87785e-06, 1.10297)
+shape = SubResource("RectangleShape2D_dt4kn")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
