@@ -137,6 +137,9 @@ func _physics_process(delta: float) -> void:
 		Utils.ammo_switch()
 		ammo_switch_cooldown.start()
 	
+	if status_canattack and Input.is_action_just_pressed("changeammo"):
+		action_ammo_switch()
+	
 	if status_canattack and Input.is_action_just_pressed("melee"):
 		state_change(state, State.MELEE)
 	
@@ -194,7 +197,7 @@ func action_dash(direction: int): # -1 for left, 1 for right
 	velocity.x = direction * ROLL_SPEED
 	dodge_cooldown_timer.start()
 
-func hit(from: CharacterBody2D, damage: int) -> void:
+func hit(from, damage: int) -> void:
 	if state == State.COUNTER:
 		action_counter_onhit(from)
 	elif status_takesdamage:
@@ -219,6 +222,9 @@ func action_slice():
 				-500
 			))
 	velocity += Vector2($flip2d.scale.x * 500, 0)
+
+func action_ammo_switch():
+	Utils.ammo_switch()
 
 func action_shoot():
 	anim_player.play("slice") # TODO

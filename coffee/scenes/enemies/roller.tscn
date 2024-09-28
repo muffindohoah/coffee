@@ -107,6 +107,7 @@ scale = Vector2(0.093, 53.683)
 texture = SubResource("GradientTexture1D_1yhhh")
 
 [node name="walldetection" type="Area2D" parent="flip2d"]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="flip2d/walldetection"]
 position = Vector2(72, -5.5)
