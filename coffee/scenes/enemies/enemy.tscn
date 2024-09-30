@@ -18,13 +18,13 @@ size = Vector2(73, 95)
 radius = 32.0
 height = 96.0
 
-[sub_resource type="Animation" id="Animation_e4lyd"]
-resource_name = "idle"
-loop_mode = 1
-
 [sub_resource type="Animation" id="Animation_36tqm"]
 resource_name = "attack"
 length = 0.5
+
+[sub_resource type="Animation" id="Animation_e4lyd"]
+resource_name = "idle"
+loop_mode = 1
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l3b83"]
 _data = {

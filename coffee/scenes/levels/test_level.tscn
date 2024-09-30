@@ -21,7 +21,7 @@ gradient = SubResource("Gradient_vw3uw")
 script = ExtResource("1_38ygx")
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="."]
-position = Vector2(252, 518)
+position = Vector2(231, 429)
 rotation = -3.14158
 scale = Vector2(0.0955778, 0.361647)
 skew = 0.000340223
@@ -81,19 +81,13 @@ position = Vector2(167, 414)
 
 [node name="enemy2" parent="." instance=ExtResource("2_ngk4t")]
 position = Vector2(-253, 517)
-SPEED = 100.0
-ACCELERATION = 50.0
-INITIAL_HEALTH = 5
 
 [node name="enemy4" parent="." instance=ExtResource("2_ngk4t")]
 position = Vector2(468, 545)
-INITIAL_HEALTH = 3
 
 [node name="enemy3" parent="." instance=ExtResource("2_ngk4t")]
 position = Vector2(706, 484)
-SPEED = 100.0
 ACCELERATION = 100.0
-INITIAL_HEALTH = 3
 
 [node name="enemy" parent="." instance=ExtResource("2_ngk4t")]
 position = Vector2(605, 349)

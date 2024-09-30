@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=4 uid="uid://b2in6645hssia"]
 
 [ext_resource type="Texture2D" uid="uid://b3a1ijbv5h6e6" path="res://assets/cavesofgallet/cavesofgallet_x64.png" id="1_f15i1"]
-[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_c18gj"]
+[ext_resource type="PackedScene" uid="uid://dsiagdguuasxg" path="res://scenes/player/player.tscn" id="2_c18gj"]
 [ext_resource type="PackedScene" uid="uid://c53gmymolr23u" path="res://scenes/enemies/enemy.tscn" id="3_rcqat"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ywhrn"]
@@ -206,8 +206,7 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSet" id="TileSet_yg22r"]
 tile_size = Vector2i(64, 64)
-physics_layer_0/collision_layer = 2
-physics_layer_0/collision_mask = 17
+physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 2
 terrain_set_0/terrain_0/name = "grass"
 terrain_set_0/terrain_0/color = Color(0.188628, 0.456346, 9.62615e-08, 1)

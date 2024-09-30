@@ -8,10 +8,10 @@ extends CharacterBody2D
 @onready var slice_hitbox = $flip2d/slice_hitbox
 
 const COOLDOWN := 0.5
-const ROLL_SPEED := 800
-const SPEED := 400.0
-const GRAVITY := 5000.0
-const JUMP_SPEED := 0.3 * GRAVITY# + 1000.0 <-- ??? <--- idk
+const DASH_SPEED := 2000
+const SPEED := 600.0
+const GRAVITY := 7000.0
+const JUMP_SPEED := 0.4 * GRAVITY# + 1000.0 <-- ??? <--- idk
 const BASE_DAMAGE := 1
 const INITIAL_HEALTH := 3
 
@@ -70,7 +70,10 @@ func state_change(from: State, to: State):
 		status_takesdamage = false
 		status_hasgravity  = false
 		status_lockactions()
-		var direction = Input.get_axis("left", "right")
+		var direction := Vector2(
+			Input.get_axis("left", "right"),
+			Input.get_axis("up", "down")
+		).normalized()
 		action_dash(direction)
 	
 	elif to == State.MELEE:
@@ -124,7 +127,10 @@ func _physics_process(delta: float) -> void:
 	
 	$healthLabel.text = str(health)
 	
-	var direction := Input.get_axis("left", "right")
+	var direction := Vector2(
+		Input.get_axis("left", "right"),
+		Input.get_axis("up", "down")
+	).normalized()
 	
 	if status_hasgravity and not is_on_floor():
 		velocity.y += GRAVITY * delta
@@ -143,25 +149,23 @@ func _physics_process(delta: float) -> void:
 		state_change(state, State.RANGED)
 	
 	if status_candodge and Input.is_action_just_pressed("dodgeparry"):
-		if direction:
+		if direction.length() > 0:
 			state_change(state, State.DASH)
 		else:
 			state_change(state, State.COUNTER)
 	
 	if status_canmove:
-		if direction < 0: movementvelocity.x = -SPEED
-		if direction > 0: movementvelocity.x = SPEED
-		if direction == 0: movementvelocity.x = 0
-		
-		
+		if direction.x < 0: movementvelocity.x = -SPEED
+		if direction.x > 0: movementvelocity.x = SPEED
+		if direction.x == 0: movementvelocity.x = 0
 		
 		# flip sprites
-		if direction < 0: $flip2d.face(-1)
-		if direction > 0: $flip2d.face(1)
+		if direction.x < 0: $flip2d.face(-1)
+		if direction.x > 0: $flip2d.face(1)
 	else:
 		movementvelocity.x = 0
 	
-	velocity = velocity.move_toward(Vector2.ZERO, 2000 * delta)
+	velocity = velocity.move_toward(Vector2.ZERO, 3000 * delta)
 	
 	velocity += movementvelocity
 	move_and_slide()
@@ -182,12 +186,12 @@ func action_counter_onhit(): # called when we get hit while in COUNTER state
 			if hb.host.is_in_group("enemy"):
 				hb.host.state_change(hb.host.state, hb.host.State.IDLE)
 
-func action_dash(direction: int): # -1 for left, 1 for right
-	assert(direction != 0)
+func action_dash(direction: Vector2):
 	#set_collision_mask_value(5, false)
 	anim_player.play("roll")
-	velocity.y += -20
-	velocity.x = direction * ROLL_SPEED
+	#velocity.y += -20
+	#velocity.x = direction * ROLL_SPEED
+	velocity = direction.normalized() * DASH_SPEED
 	dodge_cooldown_timer.start()
 
 func hit(from: CharacterBody2D, damage: int) -> void:
@@ -211,10 +215,10 @@ func action_slice():
 		hb.hit(self, BASE_DAMAGE)
 		if is_instance_valid(hb.host):
 			hb.knockback(Vector2(
-				sign(hb.host.global_position.x - global_position.x) * 1000,
+				sign(hb.host.global_position.x - global_position.x) * 2000,
 				-500
 			))
-	velocity += Vector2($flip2d.scale.x * 500, 0)
+	velocity += Vector2($flip2d.scale.x * 1000, 0)
 
 func action_shoot():
 	anim_player.play("slice") # TODO

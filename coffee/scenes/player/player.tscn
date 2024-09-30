@@ -600,7 +600,7 @@ _data = {
 size = Vector2(62, 63)
 
 [node name="player" type="CharacterBody2D" groups=["damageable", "player"]]
-collision_layer = 4
+collision_layer = 5
 script = ExtResource("1_53qcj")
 
 [node name="flip2d" parent="." instance=ExtResource("2_m1dq5")]
@@ -649,7 +649,6 @@ texture = ExtResource("5_sngpj")
 
 [node name="platter" parent="flip2d/waist/torsopoint/torso" instance=ExtResource("10_haoye")]
 transparent_bg = true
-render_target_update_mode = 4
 
 [node name="hat" parent="flip2d/waist/torsopoint/torso/platter" index="2"]
 transform = Transform3D(0.862341, -0.166838, -0.478052, 0.0820255, 0.977714, -0.193256, 0.49964, 0.12744, 0.856807, 0, 0, -3.12047)

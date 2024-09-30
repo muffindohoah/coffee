@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
 
-@export var SPEED = 300.0
-@export var ACCELERATION = 500.0
+@export var SPEED = 500.0
+@export var ACCELERATION = 5000.0
 @export var JUMP_VELOCITY = -400.0
 @export var INITIAL_HEALTH = 2
 @export var BASE_DAMAGE = 1
-const GRAVITY := 5000.0
+const GRAVITY := 7000.0
 
 var movementvelocity := Vector2.ZERO
 
