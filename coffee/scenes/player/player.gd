@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var ammo_switch_cooldown := $ammoswitchcooldown
 @onready var dodge_cooldown_timer := $dodgecooldown
 @onready var counter_pivotpoint = $counterpivotpoint
-@onready var counter_hitbox = $flip2d/counter_hitbox
+@onready var counter_hitbox = $counterpivotpoint/counter_hitbox
 @onready var slice_hitbox = $flip2d/slice_hitbox
 
 const COOLDOWN := 0.5
@@ -67,6 +67,7 @@ func state_change(from: State, to: State):
 		anim_player.play("idle") # TODO
 	
 	elif to == State.DASH:
+		status_takesknockback = false
 		status_takesdamage = false
 		status_hasgravity  = false
 		status_lockactions()
@@ -106,7 +107,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	elif anim_name == "idle": # AIR (TODO)
 		pass
 	elif anim_name == "roll": # DASH (TODO)
-		#set_collision_mask_value(5, true)
+		set_collision_mask_value(3, true)
 		state_change(state, State.IDLE)
 	elif anim_name == "slice": # MELEE
 		state_change(state, State.IDLE)
@@ -142,6 +143,9 @@ func _physics_process(delta: float) -> void:
 		Utils.ammo_switch()
 		ammo_switch_cooldown.start()
 	
+	if status_canattack and Input.is_action_just_pressed("changeammo"):
+		action_ammo_switch()
+	
 	if status_canattack and Input.is_action_just_pressed("melee"):
 		state_change(state, State.MELEE)
 	
@@ -174,8 +178,11 @@ func _physics_process(delta: float) -> void:
 func action_counter():
 	anim_player.play("parry")
 	dodge_cooldown_timer.start()
-func action_counter_onhit(): # called when we get hit while in COUNTER state
+
+func action_counter_onhit(body): # called when we get hit while in COUNTER state
 	print("[%s] attack countered!" % [name])
+	counter_pivotpoint.look_at(body.position)
+	
 	for hb in counter_hitbox.get_overlapping_hurtboxes():
 		hb.hit(self, BASE_DAMAGE)
 		if is_instance_valid(hb.host):
@@ -187,16 +194,15 @@ func action_counter_onhit(): # called when we get hit while in COUNTER state
 				hb.host.state_change(hb.host.state, hb.host.State.IDLE)
 
 func action_dash(direction: Vector2):
-	#set_collision_mask_value(5, false)
 	anim_player.play("roll")
 	#velocity.y += -20
 	#velocity.x = direction * ROLL_SPEED
 	velocity = direction.normalized() * DASH_SPEED
 	dodge_cooldown_timer.start()
 
-func hit(from: CharacterBody2D, damage: int) -> void:
+func hit(from, damage: int) -> void:
 	if state == State.COUNTER:
-		action_counter_onhit()
+		action_counter_onhit(from)
 	elif status_takesdamage:
 		health -= damage
 	else:
@@ -219,6 +225,9 @@ func action_slice():
 				-500
 			))
 	velocity += Vector2($flip2d.scale.x * 1000, 0)
+
+func action_ammo_switch():
+	Utils.ammo_switch()
 
 func action_shoot():
 	anim_player.play("slice") # TODO

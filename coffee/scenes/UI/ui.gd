@@ -11,8 +11,10 @@ const ammo_type_label_DB = ["BLAST","FIRE","CHAIN"]
 
 func _ready() -> void:
 	Utils.ammo_switched.connect(_on_ammo_switched)
+	Utils.ammo_switch()
 
 func _on_ammo_switched():
+	print("hello")
 	set_ammo_type(Utils.current_ammo)
 
 func set_ammo_type(type):

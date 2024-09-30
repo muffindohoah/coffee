@@ -42,14 +42,17 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "idle": # IDLE state
 		pass
 	elif anim_name == "attack": # ATTACK
-		for hb in $flip2d/attack.get_overlapping_hurtboxes():
+		hurt_overlapping_hurtboxes()
+		state_change(state, State.IDLE)
+
+func hurt_overlapping_hurtboxes():
+	for hb in $flip2d/attack.get_overlapping_hurtboxes():
 			hb.hit(self, BASE_DAMAGE)
 			if is_instance_valid(hb.host):
 				hb.knockback(Vector2(
 					sign(hb.host.global_position.x - global_position.x) * 800,
 					-400
 				))
-		state_change(state, State.IDLE)
 
 func _physics_process(delta: float) -> void:
 	
@@ -72,7 +75,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			movementvelocity.x = move_toward(movementvelocity.x, 0, ACCELERATION * delta)
 	else:
-		movementvelocity.x = 0
+		movementvelocity.x = move_toward(movementvelocity.x, 0, ACCELERATION * 3 * delta)
 	
 	# attack if close enough
 	if !targets.is_empty() and is_instance_valid(targets[0]):

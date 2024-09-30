@@ -15,11 +15,11 @@
 [ext_resource type="Texture2D" uid="uid://bm0pegfgfmrhu" path="res://assets/TeaHead/waistwalk3.png" id="9_1fgh3"]
 [ext_resource type="PackedScene" uid="uid://do8mnuylfqalm" path="res://scenes/player/tea_platter.tscn" id="10_haoye"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2agw0"]
+size = Vector2(117, 45.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xd0gn"]
 size = Vector2(127, 63)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2agw0"]
-size = Vector2(48, 63)
 
 [sub_resource type="Animation" id="Animation_3qi0p"]
 length = 0.001
@@ -603,6 +603,17 @@ size = Vector2(62, 63)
 collision_layer = 5
 script = ExtResource("1_53qcj")
 
+[node name="counterpivotpoint" type="Node2D" parent="."]
+position = Vector2(0, -32)
+
+[node name="counter_hitbox" parent="counterpivotpoint" node_paths=PackedStringArray("host") instance=ExtResource("3_gko32")]
+position = Vector2(31, 0)
+host = NodePath("../..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="counterpivotpoint/counter_hitbox"]
+position = Vector2(34.5, 0)
+shape = SubResource("RectangleShape2D_2agw0")
+
 [node name="flip2d" parent="." instance=ExtResource("2_m1dq5")]
 
 [node name="slice_hitbox" parent="flip2d" node_paths=PackedStringArray("host") instance=ExtResource("3_gko32")]
@@ -613,14 +624,6 @@ host = NodePath("../..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="flip2d/slice_hitbox"]
 position = Vector2(45.5, -31.5)
 shape = SubResource("RectangleShape2D_xd0gn")
-
-[node name="counter_hitbox" parent="flip2d" node_paths=PackedStringArray("host") instance=ExtResource("3_gko32")]
-position = Vector2(0, -32)
-host = NodePath("../..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="flip2d/counter_hitbox"]
-position = Vector2(55, 0.5)
-shape = SubResource("RectangleShape2D_2agw0")
 
 [node name="torso_anim_player" type="AnimationPlayer" parent="flip2d"]
 root_node = NodePath("../legs_anim_player")
@@ -635,6 +638,7 @@ libraries = {
 }
 
 [node name="waist" type="Sprite2D" parent="flip2d"]
+visible = false
 position = Vector2(-2, -15)
 scale = Vector2(0.171348, 0.195545)
 texture = ExtResource("7_tnqf1")
@@ -644,7 +648,7 @@ position = Vector2(23.3443, -71.5949)
 scale = Vector2(1.23141, 1.05347)
 
 [node name="torso" type="Sprite2D" parent="flip2d/waist/torsopoint"]
-position = Vector2(-4.73934, -0.892958)
+position = Vector2(7.62939e-06, -5.74733)
 texture = ExtResource("5_sngpj")
 
 [node name="platter" parent="flip2d/waist/torsopoint/torso" instance=ExtResource("10_haoye")]
@@ -653,6 +657,9 @@ transparent_bg = true
 [node name="hat" parent="flip2d/waist/torsopoint/torso/platter" index="2"]
 transform = Transform3D(0.862341, -0.166838, -0.478052, 0.0820255, 0.977714, -0.193256, 0.49964, 0.12744, 0.856807, 0, 0, -3.12047)
 
+[node name="OmniLight3D" parent="flip2d/waist/torsopoint/torso/platter" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.710867, 1.76046, -1.01062)
+
 [node name="hat" type="Sprite2D" parent="flip2d/waist/torsopoint/torso"]
 top_level = true
 position = Vector2(-8, -61)
@@ -660,7 +667,6 @@ scale = Vector2(0.15625, 0.152344)
 texture = SubResource("ViewportTexture_3nt5d")
 
 [node name="Sprite2D" type="Sprite2D" parent="flip2d"]
-visible = false
 texture_filter = 1
 position = Vector2(4, -32)
 texture = ExtResource("3_6qpj8")

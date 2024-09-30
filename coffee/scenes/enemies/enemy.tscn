@@ -1,15 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://c53gmymolr23u"]
+[gd_scene load_steps=17 format=3 uid="uid://c53gmymolr23u"]
 
 [ext_resource type="Script" path="res://scenes/enemies/enemy.gd" id="1_2kq0b"]
 [ext_resource type="PackedScene" uid="uid://ddtj8kqkup2gn" path="res://scenes/components/flip_2d.tscn" id="2_7f8vj"]
+[ext_resource type="Texture2D" uid="uid://bdx1ljofp3lmp" path="res://assets/Zombee/walk.png" id="3_2djlh"]
 [ext_resource type="PackedScene" uid="uid://dvsrfwsjm0ejv" path="res://scenes/components/hitbox.tscn" id="3_a1l7d"]
 [ext_resource type="PackedScene" uid="uid://d3e5wwkxukfgt" path="res://scenes/components/hurtbox.tscn" id="3_an6mj"]
-
-[sub_resource type="Gradient" id="Gradient_787ac"]
-colors = PackedColorArray(0.0624614, 0.00736692, 1.50409e-09, 1, 0.81502, 1.01075e-06, 1.92523e-07, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_kvcpe"]
-gradient = SubResource("Gradient_787ac")
+[ext_resource type="Texture2D" uid="uid://b8xmuf80pda2k" path="res://assets/Zombee/attack1.png" id="5_ct8tq"]
+[ext_resource type="Texture2D" uid="uid://cj3354dgj3bc" path="res://assets/Zombee/attack2.png" id="6_cu2di"]
+[ext_resource type="Texture2D" uid="uid://c3e3btkvry1sm" path="res://assets/Zombee/attack3.png" id="7_eo8pf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqgik"]
 size = Vector2(73, 95)
@@ -18,9 +16,98 @@ size = Vector2(73, 95)
 radius = 32.0
 height = 96.0
 
+[sub_resource type="Animation" id="Animation_wds8h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flip2d/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_2djlh")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("flip2d/Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.300366, 0.325733)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("flip2d/Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -48)]
+}
+
 [sub_resource type="Animation" id="Animation_36tqm"]
 resource_name = "attack"
 length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flip2d/Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.366667, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_2djlh"), ExtResource("5_ct8tq"), ExtResource("6_cu2di"), ExtResource("7_eo8pf")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("flip2d/Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.366667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0.300366, 0.325733), Vector2(0.243478, 0.186472), Vector2(0.243478, 0.186472)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("flip2d/Sprite2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.366667, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, -40), Vector2(25, -48), Vector2(3, -40)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"hurt_overlapping_hurtboxes"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_e4lyd"]
 resource_name = "idle"
@@ -28,6 +115,7 @@ loop_mode = 1
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_l3b83"]
 _data = {
+"RESET": SubResource("Animation_wds8h"),
 "attack": SubResource("Animation_36tqm"),
 "idle": SubResource("Animation_e4lyd")
 }
@@ -46,8 +134,9 @@ script = ExtResource("1_2kq0b")
 
 [node name="Sprite2D" type="Sprite2D" parent="flip2d"]
 position = Vector2(0, -48)
-scale = Vector2(0.25, 96)
-texture = SubResource("GradientTexture1D_kvcpe")
+scale = Vector2(0.300366, 0.325733)
+texture = ExtResource("3_2djlh")
+flip_h = true
 
 [node name="attack" parent="flip2d" node_paths=PackedStringArray("host") instance=ExtResource("3_a1l7d")]
 host = NodePath("../..")
@@ -61,7 +150,6 @@ position = Vector2(0, -48)
 shape = SubResource("CapsuleShape2D_vrsvm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("")
 libraries = {
 "": SubResource("AnimationLibrary_l3b83")
 }
@@ -84,8 +172,9 @@ position = Vector2(0, -54.5)
 shape = SubResource("RectangleShape2D_hqgik")
 
 [node name="healthLabel" type="Label" parent="."]
+offset_top = 1.0
 offset_right = 40.0
-offset_bottom = 23.0
+offset_bottom = 24.0
 text = "0"
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("host") instance=ExtResource("3_an6mj")]

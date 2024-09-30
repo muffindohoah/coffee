@@ -1,0 +1,177 @@
+[gd_scene load_steps=14 format=3 uid="uid://h4axplf103un"]
+
+[ext_resource type="Script" path="res://scenes/enemies/pot.gd" id="1_44c6e"]
+[ext_resource type="Texture2D" uid="uid://bc52su8m0ef6v" path="res://assets/circle.png" id="1_u5n2d"]
+[ext_resource type="PackedScene" uid="uid://d3e5wwkxukfgt" path="res://scenes/components/hurtbox.tscn" id="3_22k6y"]
+[ext_resource type="PackedScene" uid="uid://dvsrfwsjm0ejv" path="res://scenes/components/hitbox.tscn" id="3_ewciq"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3xfgm"]
+rough = true
+bounce = 0.18
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_muinm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v7xkq"]
+radius = 18.0278
+
+[sub_resource type="Gradient" id="Gradient_o3dsv"]
+colors = PackedColorArray(0, 0, 0, 1, 0.548344, 0.21643, 0.00194107, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_oxbrs"]
+gradient = SubResource("Gradient_o3dsv")
+
+[sub_resource type="Animation" id="Animation_hmhy8"]
+resource_name = "mess"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("1_u5n2d"), SubResource("GradientTexture1D_oxbrs")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(0.075, 0.0777778), Vector2(0.311, 18.687)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0.48)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hitbox")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"enable"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_gmsba"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_u5n2d")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.072, 0.072)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hitbox")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"disable"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nasbd"]
+_data = {
+"RESET": SubResource("Animation_gmsba"),
+"mess": SubResource("Animation_hmhy8")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ap7k"]
+size = Vector2(75, 15)
+
+[node name="pot" type="RigidBody2D"]
+collision_layer = 4
+physics_material_override = SubResource("PhysicsMaterial_3xfgm")
+angular_damp_mode = 1
+constant_torque = 1000.0
+script = ExtResource("1_44c6e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_muinm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.499999, 0.999998)
+scale = Vector2(0.072, 0.072)
+texture = ExtResource("1_u5n2d")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_v7xkq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_nasbd")
+}
+
+[node name="Hurtbox" parent="." instance=ExtResource("3_22k6y")]
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("host") instance=ExtResource("3_ewciq")]
+monitoring = false
+host = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_7ap7k")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="hurtbox_entered" from="Hitbox" to="." method="_on_hitbox_hurtbox_entered"]
